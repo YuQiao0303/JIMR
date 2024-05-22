@@ -1,0 +1,171 @@
+GENERAL:
+  task: test  # train, test
+  manual_seed: 123
+  model_dir: model/network.py
+  dataset_dir: data/scannetv2_inst.py
+  model_pipeline_dir: model/model_fn_decorator.py
+  model_loss_dir: model/loss.py
+
+  network: 'network' # 'rfs'
+
+DATA:
+  data_root: ../dataset
+  dataset: scannetv2
+  filename_suffix: _inst_nostuff.pth
+
+  classes: 25
+  ignore_label: -100
+
+
+  scale: 50   # voxel_size = 1 / scale, scale 50(2cm)
+  batch_size: 2
+  full_scale: [128, 512]
+  max_npoint: 250000
+  mode: 4 # 4=mean
+
+  use_gt_seg_and_bbox: False # False, True
+
+  angle_parameter: 'bin' # 'Mobius_flip' # 'Mobius_cos', 'sin_cos', 'naive', 'bin'
+  angle_strict: True
+  fix_angle_distance: False # another way of decoding rotated bbox, don't use this
+
+  cls_label_from: 1 #2, phase1 or phase 2 # important
+
+
+STRUCTURE:
+  model_name: rfs
+  m: 16 # 16 or 32
+  block_residual: True
+  block_reps: 2
+
+  use_rgb: False
+  use_coords: True
+
+
+TRAIN:
+  epochs: 300
+  train_workers: 8 #8 # data loader workers
+  optim: Adam # Adam or SGD
+  lr: 0.0001 # 0.0001 # important
+  step_epoch: 256
+  multiplier: 1
+  momentum: 0.9
+  weight_decay: 0.0001
+  save_freq: 8  # also eval_freq
+  loss_weight: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0] # semantic_loss, offset_norm_loss, offset_dir_loss, score_loss, z_loss, bbox_loss
+
+  fg_thresh: 0.75
+  bg_thresh: 0.25
+
+  score_scale: 50 # the minimal voxel size is 2cm
+  score_fullscale: 20 # 14
+  score_mode: 4 # mean
+
+  use_pretrained_pcn: False
+  use_pretrained_onet: False
+
+
+  pretrain_path: jimr_spconv2.pth
+  pretrain_module: [] #['input_conv', 'unet', 'output_layer', 'linear', 'offset', 'offset_linear',  'bbox','bbox_linear','angle_linear','bbox_score','bbox_score_linear']
+  fix_module: []
+  fix_onet_decoder: False
+  fix_pcn: False
+
+  refine_angle: False
+
+  use_completion_CD_loss: True
+  CD_loss_weight: 1
+  use_z_loss: True
+  z_loss_weight: 0.0001 # 0.0001
+  use_mesh_reconstruction_loss: True
+  mesh_loss_weight: 0.0000001
+
+  print_step: 10
+  vis_step: 50000 # 97 #147
+  cluster_gt_iou_thre: 0.5
+  object_limit_per_scene: 10
+
+GROUP:
+  ### point grouping
+  group_method: dimr # dimr, softgroup
+  score_thr: 0.2
+  cluster_radius: 0.04 # 0.04 for softgroup; 0.03 for dimr group
+  cluster_meanActive: 50
+  cluster_shift_meanActive: 300 # equal to softgroup: 300
+  cluster_npoint_thre: 50 # 0.05 for softgroup
+  class_numpoint_mean: [ -1., -1., -1., -1., -1.,
+                         -1., -1., -1., -1., -1.,
+                         -1., -1., -1., -1., -1.,
+                         -1., -1., -1., -1., -1.,
+                         -1., -1., -1., -1., -1. ]
+  non_cad_labels: [0,1，3，7，8,10,13,15，19,20]
+
+  merge_mode: mean  #  # mean, weighted_mean
+  merge_sample_mode: all
+  score_type: none # cls_centerness, cls # important
+
+
+
+  # phase2
+  prepare_epochs: 0
+  prepare_epochs_2: 0
+  prepare_epochs_3: 0 # when inference, set this to 0 to generate mesh; set this to super high to evaluate det and seg only
+
+TEST:
+  split: val
+  test_epoch: 256
+  test_workers: 8
+  test_seed: 42
+
+  TEST_BBOX_NMS: False
+  TEST_BBOX_NMS_THRESH: 1 #0.5
+  TEST_NMS_THRESH: 0.3
+  TEST_SCORE_THRESH: 0.01 # 0.05
+  TEST_NPOINT_THRESH: 100 # same with soft group: 100
+
+  eval: True
+  eval_voxel_size: 0.047
+  mesh_iou_thresh: [0.25, 0.5]
+  ICP: False # ######
+  save_semantic: False #True
+  save_pt_offsets: False
+  save_pt_angles: False #True
+  save_instance: False #True
+  save_mesh: True
+  save_cano_mesh: True
+  save_pc: True
+  save_cano_pc: False
+  save_bbox: False
+  save_instance_for_seg_eval: False
+
+  final_score_type: seg_cls_bbox_mesh # seg, seg_cls , seg_cls_bbox, seg_cls_bbox_mesh, seg_cls_mesh # important # important
+
+
+  retrieval: False
+  k_projection: 0
+  per_class_proposal: False # True
+  sample: False
+
+  result_path: 'result'
+
+ONET:
+  teacher_mode: False
+  use_cls_for_completion: False
+  c_dim: 512
+  hidden_dim: 512
+  threshold : 0.5 #?
+  use_mask : False
+  mask_loss_weight : 1
+
+
+  classify_loss_type: bce # bce, sign_bce, sigmoid_l1, linear_l1
+
+  # '''generation'''
+  generate_mesh: True # True
+  resolution_0: 32 # original 32
+  upsampling_steps: 0 # 0 for 32, 2 for 128
+  use_sampling: False
+  refinement_step: 0
+  simplify_nfaces: Null # original
+  dump_threshold: 0.5
+  dump_results: True--

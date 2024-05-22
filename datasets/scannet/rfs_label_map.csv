@@ -1,0 +1,608 @@
+,id,raw_category,ShapeNetCore55,synsetoffset,nyu40class,nyu40id,nyu_ids,cad_ids,rfs_labels,rfs_ids
+0,1,wall,void,,wall,1,0,-1,wall,0
+1,2,chair,chair,3001627.0,chair,5,4,1,chair,4
+2,22,books,void,,void,23,-1,-1,void,-1
+3,3,floor,void,,floor,2,1,-1,floor,1
+4,5,door,void,,door,8,7,-1,door,7
+5,1163,object,void,,void,40,-1,-1,void,-1
+6,16,window,void,,window,9,8,-1,window,8
+7,4,table,table,4379243.0,table,7,6,0,table,6
+8,56,trash can,trash_bin,2747177.0,otherfurniture,39,19,4,trash_bin,22
+9,13,pillow,void,3938244.0,void,18,-1,-1,void,-1
+10,15,picture,void,,picture,11,10,-1,picture,10
+11,41,ceiling,void,,void,22,-1,-1,void,-1
+12,26,box,void,,void,29,-1,-1,void,-1
+13,161,doorframe,void,,door,8,7,-1,door,7
+14,19,monitor,display,3211117.0,void,40,-1,6,display,21
+15,7,cabinet,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+16,9,desk,table,4379243.0,desk,14,12,0,desk,12
+17,8,shelf,bookshelf,2871439.0,void,15,-1,2,other_shelf,23
+18,10,office chair,chair,3001627.0,chair,5,4,1,chair,4
+19,31,towel,void,,void,27,-1,-1,void,-1
+20,6,couch,sofa,4256520.0,sofa,6,5,3,sofa,5
+21,14,sink,bathtub,,sink,34,17,7,sink,17
+22,48,backpack,void,,void,40,-1,-1,void,-1
+23,28,lamp,void,3636649.0,void,35,-1,-1,void,-1
+24,11,bed,void,2818832.0,bed,4,3,-1,bed,3
+25,18,bookshelf,bookshelf,2871439.0,bookshelf,10,9,2,bookshelf,9
+26,71,mirror,void,,void,19,-1,-1,void,-1
+27,21,curtain,void,,curtain,16,13,-1,curtain,13
+28,40,plant,void,,void,40,-1,-1,void,-1
+29,52,whiteboard,void,,void,30,-1,-1,void,-1
+30,96,radiator,void,,otherfurniture,39,19,-1,otherfurniture,19
+31,22,book,void,,void,23,-1,-1,void,-1
+32,29,kitchen cabinet,void,,cabinet,3,2,-1,kitchen_cabinet,20
+33,49,toilet paper,void,,void,40,-1,-1,void,-1
+34,29,kitchen cabinets,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+35,23,armchair,chair,3001627.0,chair,5,4,1,chair,4
+36,63,shoes,void,,void,40,-1,-1,void,-1
+37,24,coffee table,table,4379243.0,table,7,6,0,table,6
+38,17,toilet,chair,,toilet,33,16,1,toilet,16
+39,47,bag,void,2773838.0,void,37,-1,-1,void,-1
+40,32,clothes,void,,void,21,-1,-1,void,-1
+41,46,keyboard,void,3085013.0,void,40,-1,-1,void,-1
+42,65,bottle,void,2876657.0,void,40,-1,-1,void,-1
+43,97,recycling bin,trash_bin,2747177.0,otherfurniture,39,19,4,trash_bin,22
+44,34,nightstand,void,,void,32,-1,-1,void,-1
+45,38,stool,void,,void,40,-1,-1,void,-1
+46,33,tv,display,3211117.0,void,25,-1,6,display,21
+47,75,file cabinet,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+48,36,dresser,void,,void,17,-1,-1,void,-1
+49,64,computer tower,void,,void,40,-1,-1,void,-1
+50,32,clothing,void,,void,21,-1,-1,void,-1
+51,101,telephone,void,4401088.0,void,40,-1,-1,void,-1
+52,130,cup,void,3797390.0,void,40,-1,-1,void,-1
+53,27,refrigerator,cabinet,,refridgerator,24,14,5,refridgerator,14
+54,44,end table,table,4379243.0,table,7,6,0,table,6
+55,131,jacket,void,,void,40,-1,-1,void,-1
+56,55,shower curtain,void,,shower curtain,28,15,-1,shower curtain,15
+57,42,bathtub,bathtub,2808440.0,bathtub,36,18,7,bathtub,18
+58,59,microwave,void,3761084.0,void,40,-1,-1,void,-1
+59,159,kitchen counter,cabinet,4379243.0,counter,12,11,5,counter,11
+60,74,sofa chair,chair,3001627.0,chair,5,4,1,chair,4
+61,82,paper towel dispenser,void,,void,40,-1,-1,void,-1
+62,1164,bathroom vanity,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+63,93,suitcase,void,,void,40,-1,-1,void,-1
+64,77,laptop,void,3642806.0,void,40,-1,-1,void,-1
+65,67,ottoman,void,,otherfurniture,39,19,-1,otherfurniture,19
+66,128,shower walls,void,,wall,1,0,-1,wall,0
+67,50,printer,void,4004475.0,void,40,-1,-1,void,-1
+68,35,counter,cabinet,4379243.0,counter,12,11,5,counter,11
+69,69,board,void,,void,38,-1,-1,void,-1
+70,100,soap dispenser,void,,void,40,-1,-1,void,-1
+71,62,stove,void,4330267.0,void,38,-1,-1,void,-1
+72,105,light,void,,void,38,-1,-1,void,-1
+73,1165,closet wall,void,,wall,1,0,-1,wall,0
+74,165,mini fridge,cabinet,,refridgerator,24,14,5,refridgerator,14
+75,7,cabinets,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+76,5,doors,void,,door,8,7,-1,door,7
+77,76,fan,void,,void,40,-1,-1,void,-1
+78,230,tissue box,void,,void,40,-1,-1,void,-1
+79,54,blanket,void,,void,40,-1,-1,void,-1
+80,125,bathroom stall,void,,void,38,-1,-1,void,-1
+81,72,copier,void,,void,40,-1,-1,void,-1
+82,68,bench,void,2828884.0,otherfurniture,39,19,-1,otherfurniture,19
+83,145,bar,void,,void,38,-1,-1,void,-1
+84,157,soap dish,void,,void,40,-1,-1,void,-1
+85,1166,laundry hamper,void,,void,40,-1,-1,void,-1
+86,132,storage bin,void,,void,40,-1,-1,void,-1
+87,1167,bathroom stall door,void,,door,8,7,-1,door,7
+88,232,light switch,void,,void,38,-1,-1,void,-1
+89,134,coffee maker,void,,void,40,-1,-1,void,-1
+90,51,tv stand,void,,otherfurniture,39,19,-1,otherfurniture,19
+91,250,decoration,void,,void,40,-1,-1,void,-1
+92,1168,ceiling light,void,,void,38,-1,-1,void,-1
+93,342,range hood,void,,void,38,-1,-1,void,-1
+94,89,blackboard,void,,void,38,-1,-1,void,-1
+95,103,clock,void,3046257.0,void,40,-1,-1,void,-1
+96,99,wardrobe closet,void,,otherfurniture,39,19,-1,otherfurniture,19
+97,95,rail,void,,void,38,-1,-1,void,-1
+98,154,bulletin board,void,,void,38,-1,-1,void,-1
+99,140,mat,void,,void,20,-1,-1,void,-1
+100,1169,trash bin,trash_bin,2747177.0,otherfurniture,39,19,4,trash_bin,22
+101,193,ledge,void,,void,38,-1,-1,void,-1
+102,116,seat,void,,otherfurniture,39,19,-1,otherfurniture,19
+103,202,mouse,void,,void,40,-1,-1,void,-1
+104,73,basket,void,2801938.0,void,40,-1,-1,void,-1
+105,78,shower,void,,void,38,-1,-1,void,-1
+106,1170,dumbbell,void,,void,40,-1,-1,void,-1
+107,79,paper,void,,void,26,-1,-1,void,-1
+108,80,person,void,,void,31,-1,-1,void,-1
+109,141,windowsill,void,,void,38,-1,-1,void,-1
+110,57,closet,void,,otherfurniture,39,19,-1,otherfurniture,19
+111,102,bucket,void,,void,40,-1,-1,void,-1
+112,261,sign,void,,void,40,-1,-1,void,-1
+113,118,speaker,void,3691459.0,void,40,-1,-1,void,-1
+114,136,dishwasher,void,3207941.0,void,38,-1,-1,void,-1
+115,98,container,void,,void,40,-1,-1,void,-1
+116,1171,stair rail,void,,void,38,-1,-1,void,-1
+117,170,shower curtain rod,void,,void,40,-1,-1,void,-1
+118,1172,tube,void,,void,40,-1,-1,void,-1
+119,1173,bathroom cabinet,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+120,79,papers,void,,void,26,-1,-1,void,-1
+121,221,storage container,void,,void,40,-1,-1,void,-1
+122,570,paper bag,void,,void,37,-1,-1,void,-1
+123,138,paper towel roll,void,,void,40,-1,-1,void,-1
+124,168,ball,void,,void,40,-1,-1,void,-1
+125,276,closet doors,void,,door,8,7,-1,door,7
+126,106,laundry basket,void,2801938.0,void,40,-1,-1,void,-1
+127,214,cart,void,,void,40,-1,-1,void,-1
+128,276,closet door,void,,door,8,7,-1,door,7
+129,323,dish rack,void,,void,40,-1,-1,void,-1
+130,58,stairs,void,,void,38,-1,-1,void,-1
+131,86,blinds,void,,void,13,-1,-1,void,-1
+132,2,stack of chairs,chair,3001627.0,chair,5,4,1,chair,4
+133,399,purse,void,,void,40,-1,-1,void,-1
+134,121,bicycle,void,2834778.0,void,40,-1,-1,void,-1
+135,185,tray,void,,void,40,-1,-1,void,-1
+136,300,plunger,void,,void,40,-1,-1,void,-1
+137,180,paper cutter,void,,void,40,-1,-1,void,-1
+138,163,toilet paper dispenser,void,,void,40,-1,-1,void,-1
+139,26,boxes,void,,void,29,-1,-1,void,-1
+140,66,bin,void,,void,40,-1,-1,void,-1
+141,208,toilet seat cover dispenser,void,,void,40,-1,-1,void,-1
+142,112,guitar,void,3467517.0,void,40,-1,-1,void,-1
+143,540,mailboxes,void,3710193.0,void,29,-1,-1,void,-1
+144,395,handicap bar,void,,void,38,-1,-1,void,-1
+145,166,fire extinguisher,void,,void,40,-1,-1,void,-1
+146,122,ladder,void,,otherfurniture,39,19,-1,otherfurniture,19
+147,120,column,void,,void,38,-1,-1,void,-1
+148,107,pipe,void,,void,40,-1,-1,void,-1
+149,283,vacuum cleaner,void,,void,40,-1,-1,void,-1
+150,88,plate,void,,void,40,-1,-1,void,-1
+151,90,piano,void,3928116.0,otherfurniture,39,19,-1,otherfurniture,19
+152,177,water cooler,void,,otherfurniture,39,19,-1,otherfurniture,19
+153,1174,cd case,void,,void,40,-1,-1,void,-1
+154,562,bowl,void,2880940.0,void,40,-1,-1,void,-1
+155,1175,closet rod,void,,void,40,-1,-1,void,-1
+156,1156,bathroom counter,cabinet,4379243.0,counter,12,11,5,counter,11
+157,84,oven,void,,void,38,-1,-1,void,-1
+158,104,stand,table,4379243.0,otherfurniture,39,19,0,other_table,24
+159,229,scale,void,,void,40,-1,-1,void,-1
+160,70,washing machine,void,4554684.0,otherfurniture,39,19,-1,otherfurniture,19
+161,325,broom,void,,void,40,-1,-1,void,-1
+162,169,hat,void,,void,40,-1,-1,void,-1
+163,128,shower wall,void,,wall,1,0,-1,wall,0
+164,331,guitar case,void,,void,40,-1,-1,void,-1
+165,87,rack,void,,otherfurniture,39,19,-1,otherfurniture,19
+166,488,water pitcher,void,,void,40,-1,-1,void,-1
+167,776,laundry detergent,void,,void,40,-1,-1,void,-1
+168,370,hair dryer,void,,void,40,-1,-1,void,-1
+169,191,pillar,void,,void,38,-1,-1,void,-1
+170,748,divider,void,,void,40,-1,-1,void,-1
+171,242,power outlet,void,,void,40,-1,-1,void,-1
+172,45,dining table,table,4379243.0,table,7,6,0,table,6
+173,417,shower floor,void,,floor,2,1,-1,floor,1
+174,70,washing machines,void,4554684.0,otherfurniture,39,19,-1,otherfurniture,19
+175,188,shower door,void,,door,8,7,-1,door,7
+176,1176,coffee kettle,void,,void,40,-1,-1,void,-1
+177,1177,wardrobe cabinet,void,,otherfurniture,39,19,-1,otherfurniture,19
+178,1178,structure,void,,void,38,-1,-1,void,-1
+179,18,bookshelves,bookshelf,2871439.0,bookshelf,10,9,2,bookshelf,9
+180,110,clothes dryer,void,,otherfurniture,39,19,-1,otherfurniture,19
+181,148,toaster,void,,void,40,-1,-1,void,-1
+182,63,shoe,void,,void,40,-1,-1,void,-1
+183,155,ironing board,void,,otherfurniture,39,19,-1,otherfurniture,19
+184,572,alarm clock,void,3046257.0,void,40,-1,-1,void,-1
+185,1179,shower head,void,,void,38,-1,-1,void,-1
+186,28,lamp base,void,3636649.0,void,35,-1,-1,void,-1
+187,392,water bottle,void,2876657.0,void,40,-1,-1,void,-1
+188,1180,keyboard piano,void,3928116.0,otherfurniture,39,19,-1,otherfurniture,19
+189,609,projector screen,void,,void,38,-1,-1,void,-1
+190,1181,case of water bottles,void,,void,40,-1,-1,void,-1
+191,195,toaster oven,void,,void,40,-1,-1,void,-1
+192,581,music stand,void,,otherfurniture,39,19,-1,otherfurniture,19
+193,58,staircase,void,,void,38,-1,-1,void,-1
+194,1182,coat rack,void,,void,40,-1,-1,void,-1
+195,1183,storage organizer,void,,void,40,-1,-1,void,-1
+196,139,machine,void,,void,40,-1,-1,void,-1
+197,1184,folded chair,chair,3001627.0,chair,5,4,1,chair,4
+198,1185,fire alarm,void,,void,40,-1,-1,void,-1
+199,156,fireplace,void,,void,38,-1,-1,void,-1
+200,408,vent,void,,void,40,-1,-1,void,-1
+201,213,furniture,void,,otherfurniture,39,19,-1,otherfurniture,19
+202,1186,power strip,void,,void,40,-1,-1,void,-1
+203,1187,calendar,void,,void,40,-1,-1,void,-1
+204,1188,poster,void,,picture,11,10,-1,picture,10
+205,115,toilet paper holder,void,,void,40,-1,-1,void,-1
+206,1189,potted plant,void,,void,40,-1,-1,void,-1
+207,304,stuffed animal,void,,void,40,-1,-1,void,-1
+208,1190,luggage,void,,void,40,-1,-1,void,-1
+209,21,curtains,void,,curtain,16,13,-1,curtain,13
+210,312,headphones,void,,void,40,-1,-1,void,-1
+211,233,crate,void,,otherfurniture,39,19,-1,otherfurniture,19
+212,286,candle,void,,void,40,-1,-1,void,-1
+213,264,projector,void,,void,40,-1,-1,void,-1
+214,110,clothes dryers,void,,otherfurniture,39,19,-1,otherfurniture,19
+215,1191,mattress,void,2818832.0,bed,4,3,-1,bed,3
+216,356,dustpan,void,,void,40,-1,-1,void,-1
+217,25,drawer,void,,otherfurniture,39,19,-1,otherfurniture,19
+218,750,rod,void,3948459.0,void,40,-1,-1,void,-1
+219,269,globe,void,,void,40,-1,-1,void,-1
+220,307,footrest,void,,otherfurniture,39,19,-1,otherfurniture,19
+221,410,piano bench,void,2828884.0,otherfurniture,39,19,-1,otherfurniture,19
+222,730,breakfast bar,void,,void,38,-1,-1,void,-1
+223,216,step stool,void,,void,40,-1,-1,void,-1
+224,1192,hand rail,void,,void,38,-1,-1,void,-1
+225,119,vending machine,void,,void,40,-1,-1,void,-1
+226,682,ceiling fan,void,,void,40,-1,-1,void,-1
+227,434,swiffer,void,,void,40,-1,-1,void,-1
+228,126,foosball table,table,4379243.0,otherfurniture,39,19,0,other_table,24
+229,919,jar,void,3593526.0,void,40,-1,-1,void,-1
+230,85,footstool,void,,otherfurniture,39,19,-1,otherfurniture,19
+231,1193,folded table,table,4379243.0,table,7,6,0,table,6
+232,108,round table,table,4379243.0,table,7,6,0,table,6
+233,135,hamper,void,2801938.0,void,40,-1,-1,void,-1
+234,1194,poster tube,void,,void,40,-1,-1,void,-1
+235,432,case,void,,void,40,-1,-1,void,-1
+236,53,carpet,void,,void,40,-1,-1,void,-1
+237,1195,thermostat,void,,void,40,-1,-1,void,-1
+238,111,coat,void,,void,40,-1,-1,void,-1
+239,305,water fountain,void,,void,38,-1,-1,void,-1
+240,1125,smoke detector,void,,void,40,-1,-1,void,-1
+241,13,pillows,void,3938244.0,void,18,-1,-1,void,-1
+242,1196,flip flops,void,,void,40,-1,-1,void,-1
+243,1197,cloth,void,,void,21,-1,-1,void,-1
+244,1198,banner,void,,void,40,-1,-1,void,-1
+245,1199,clothes hanger,void,,void,40,-1,-1,void,-1
+246,1200,whiteboard eraser,void,,void,40,-1,-1,void,-1
+247,378,iron,void,,void,40,-1,-1,void,-1
+248,591,instrument case,void,,void,40,-1,-1,void,-1
+249,49,toilet paper rolls,void,,void,40,-1,-1,void,-1
+250,92,soap,void,,void,40,-1,-1,void,-1
+251,1098,block,void,,void,40,-1,-1,void,-1
+252,291,wall hanging,void,,void,40,-1,-1,void,-1
+253,1063,kitchen island,void,,void,38,-1,-1,void,-1
+254,107,pipes,void,,void,38,-1,-1,void,-1
+255,1135,toothbrush,void,,void,40,-1,-1,void,-1
+256,189,shirt,void,,void,40,-1,-1,void,-1
+257,245,cutting board,void,,void,40,-1,-1,void,-1
+258,194,vase,void,3593526.0,void,40,-1,-1,void,-1
+259,1201,shower control valve,void,,void,38,-1,-1,void,-1
+260,386,exercise machine,void,,void,40,-1,-1,void,-1
+261,1202,compost bin,trash_bin,2747177.0,otherfurniture,39,19,4,trash_bin,22
+262,857,shorts,void,,void,40,-1,-1,void,-1
+263,452,tire,void,,void,40,-1,-1,void,-1
+264,1203,teddy bear,void,,void,40,-1,-1,void,-1
+265,346,bathrobe,void,,void,40,-1,-1,void,-1
+266,152,handrail,void,,void,38,-1,-1,void,-1
+267,83,faucet,void,3325088.0,void,40,-1,-1,void,-1
+268,1204,pantry wall,void,,wall,1,0,-1,wall,0
+269,726,thermos,void,2876657.0,void,40,-1,-1,void,-1
+270,61,rug,void,,void,40,-1,-1,void,-1
+271,39,couch cushions,void,,void,18,-1,-1,void,-1
+272,1117,tripod,void,,otherfurniture,39,19,-1,otherfurniture,19
+273,540,mailbox,void,3710193.0,void,29,-1,-1,void,-1
+274,1205,tupperware,void,,void,40,-1,-1,void,-1
+275,415,shoe rack,void,,void,40,-1,-1,void,-1
+276,31,towels,void,,void,27,-1,-1,void,-1
+277,1206,beer bottles,void,2876657.0,void,40,-1,-1,void,-1
+278,153,treadmill,void,,otherfurniture,39,19,-1,otherfurniture,19
+279,1207,salt,void,,void,40,-1,-1,void,-1
+280,129,chest,void,,otherfurniture,39,19,-1,otherfurniture,19
+281,220,dispenser,void,,void,40,-1,-1,void,-1
+282,1208,mirror doors,void,,door,8,7,-1,door,7
+283,231,remote,void,4074963.0,void,40,-1,-1,void,-1
+284,1209,folded ladder,void,,otherfurniture,39,19,-1,otherfurniture,19
+285,39,cushion,void,,void,18,-1,-1,void,-1
+286,1210,carton,void,,void,40,-1,-1,void,-1
+287,117,step,void,,void,38,-1,-1,void,-1
+288,822,drying rack,void,,otherfurniture,39,19,-1,otherfurniture,19
+289,238,slippers,void,,void,40,-1,-1,void,-1
+290,143,pool table,table,4379243.0,otherfurniture,39,19,0,other_table,24
+291,1211,soda stream,void,,void,40,-1,-1,void,-1
+292,228,toilet brush,void,,void,40,-1,-1,void,-1
+293,494,loft bed,void,2818832.0,bed,4,3,-1,bed,3
+294,226,cooking pot,void,,void,40,-1,-1,void,-1
+295,91,heater,void,,otherfurniture,39,19,-1,otherfurniture,19
+296,1072,messenger bag,void,,void,37,-1,-1,void,-1
+297,435,stapler,void,,void,40,-1,-1,void,-1
+298,1165,closet walls,void,,wall,1,0,-1,wall,0
+299,345,scanner,void,,void,40,-1,-1,void,-1
+300,893,elliptical machine,void,,void,40,-1,-1,void,-1
+301,621,kettle,void,,void,40,-1,-1,void,-1
+302,1212,metronome,void,,void,40,-1,-1,void,-1
+303,297,dumbell,void,,void,40,-1,-1,void,-1
+304,1213,music book,void,,void,23,-1,-1,void,-1
+305,1214,rice cooker,void,,void,40,-1,-1,void,-1
+306,1215,dart board,void,,void,38,-1,-1,void,-1
+307,529,sewing machine,void,,void,40,-1,-1,void,-1
+308,1216,grab bar,void,,void,38,-1,-1,void,-1
+309,1217,flowerpot,void,3593526.0,void,40,-1,-1,void,-1
+310,1218,painting,void,,picture,11,10,-1,picture,10
+311,1219,railing,void,,void,38,-1,-1,void,-1
+312,1220,stair,void,,void,38,-1,-1,void,-1
+313,525,toolbox,void,,otherfurniture,39,19,-1,otherfurniture,19
+314,204,nerf gun,void,,void,40,-1,-1,void,-1
+315,693,binders,void,,void,40,-1,-1,void,-1
+316,179,desk lamp,void,3636649.0,void,35,-1,-1,void,-1
+317,1221,quadcopter,void,,void,40,-1,-1,void,-1
+318,1222,pitcher,void,,void,40,-1,-1,void,-1
+319,1223,hanging,void,,void,40,-1,-1,void,-1
+320,1224,mail,void,,void,40,-1,-1,void,-1
+321,1225,closet ceiling,void,,void,22,-1,-1,void,-1
+322,1226,hoverboard,void,,void,40,-1,-1,void,-1
+323,1227,beanbag chair,void,,otherfurniture,39,19,-1,otherfurniture,19
+324,571,water heater,void,,void,40,-1,-1,void,-1
+325,1228,spray bottle,void,2876657.0,void,40,-1,-1,void,-1
+326,556,rope,void,,void,40,-1,-1,void,-1
+327,280,plastic container,void,,void,40,-1,-1,void,-1
+328,1229,soap bottle,void,,void,40,-1,-1,void,-1
+329,1230,ikea bag,void,2773838.0,void,37,-1,-1,void,-1
+330,1231,sleeping bag,void,,void,40,-1,-1,void,-1
+331,1232,duffel bag,void,2773838.0,void,37,-1,-1,void,-1
+332,746,frying pan,void,,void,40,-1,-1,void,-1
+333,1233,oven mitt,void,,void,40,-1,-1,void,-1
+334,1234,pot,void,,void,40,-1,-1,void,-1
+335,144,hand dryer,void,,void,40,-1,-1,void,-1
+336,282,dollhouse,void,,otherfurniture,39,19,-1,otherfurniture,19
+337,167,shampoo bottle,void,2876657.0,void,40,-1,-1,void,-1
+338,1235,hair brush,void,,void,40,-1,-1,void,-1
+339,1236,tennis racket,void,,void,40,-1,-1,void,-1
+340,1237,display case,void,,void,40,-1,-1,void,-1
+341,234,ping pong table,table,4379243.0,otherfurniture,39,19,0,other_table,24
+342,563,boiler,void,,void,40,-1,-1,void,-1
+343,1238,bag of coffee beans,void,2773838.0,void,37,-1,-1,void,-1
+344,1239,bananas,void,,void,40,-1,-1,void,-1
+345,1240,carseat,void,,void,40,-1,-1,void,-1
+346,366,helmet,void,3513137.0,void,40,-1,-1,void,-1
+347,816,umbrella,void,,void,40,-1,-1,void,-1
+348,1241,coffee box,void,,void,40,-1,-1,void,-1
+349,719,envelope,void,,void,40,-1,-1,void,-1
+350,284,wet floor sign,void,,void,40,-1,-1,void,-1
+351,1242,clothing rack,void,,otherfurniture,39,19,-1,otherfurniture,19
+352,247,controller,void,,void,40,-1,-1,void,-1
+353,1243,bath walls,void,,wall,1,0,-1,wall,0
+354,1244,podium,void,,otherfurniture,39,19,-1,otherfurniture,19
+355,1245,storage box,void,,void,29,-1,-1,void,-1
+356,1246,dolly,void,,void,40,-1,-1,void,-1
+357,1247,shampoo,void,,void,40,-1,-1,void,-1
+358,592,paper tray,void,,void,40,-1,-1,void,-1
+359,385,cabinet door,void,,door,8,7,-1,door,7
+360,1248,changing station,void,,void,40,-1,-1,void,-1
+361,1249,poster printer,void,4004475.0,void,40,-1,-1,void,-1
+362,133,screen,void,,void,40,-1,-1,void,-1
+363,301,soap bar,void,,void,38,-1,-1,void,-1
+364,1250,crutches,void,,void,40,-1,-1,void,-1
+365,379,studio light,void,,void,38,-1,-1,void,-1
+366,130,stack of cups,void,3797390.0,void,40,-1,-1,void,-1
+367,1251,toilet flush button,void,,void,40,-1,-1,void,-1
+368,450,trunk,void,,void,40,-1,-1,void,-1
+369,1252,grocery bag,void,2773838.0,void,37,-1,-1,void,-1
+370,316,plastic bin,void,,void,40,-1,-1,void,-1
+371,1253,pizza box,void,,void,29,-1,-1,void,-1
+372,385,cabinet doors,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+373,1254,legs,void,,void,31,-1,-1,void,-1
+374,461,car,void,2958343.0,void,40,-1,-1,void,-1
+375,1255,shaving cream,void,,void,40,-1,-1,void,-1
+376,1256,luggage stand,void,,otherfurniture,39,19,-1,otherfurniture,19
+377,599,shredder,void,,void,40,-1,-1,void,-1
+378,281,statue,void,,void,40,-1,-1,void,-1
+379,1257,urinal,chair,,toilet,33,16,1,toilet,16
+380,1258,hose,void,,void,40,-1,-1,void,-1
+381,1259,bike pump,void,,void,40,-1,-1,void,-1
+382,319,coatrack,void,,void,40,-1,-1,void,-1
+383,1260,bear,void,,void,40,-1,-1,void,-1
+384,28,wall lamp,void,3636649.0,void,35,-1,-1,void,-1
+385,1261,humidifier,void,,void,40,-1,-1,void,-1
+386,546,toothpaste,void,,void,40,-1,-1,void,-1
+387,1262,mouthwash bottle,void,2876657.0,void,40,-1,-1,void,-1
+388,1263,poster cutter,void,,void,40,-1,-1,void,-1
+389,1264,golf bag,void,2773838.0,void,37,-1,-1,void,-1
+390,1265,food container,void,,void,40,-1,-1,void,-1
+391,1266,camera,void,,void,40,-1,-1,void,-1
+392,28,table lamp,void,3636649.0,void,35,-1,-1,void,-1
+393,1267,yoga mat,void,,void,20,-1,-1,void,-1
+394,1268,card,void,,void,40,-1,-1,void,-1
+395,1269,mug,void,3797390.0,void,40,-1,-1,void,-1
+396,188,shower doors,void,,void,38,-1,-1,void,-1
+397,689,cardboard,void,,void,40,-1,-1,void,-1
+398,1270,rack stand,void,,otherfurniture,39,19,-1,otherfurniture,19
+399,1271,boxes of paper,void,,void,29,-1,-1,void,-1
+400,1272,flag,void,,void,40,-1,-1,void,-1
+401,354,futon,void,,otherfurniture,39,19,-1,otherfurniture,19
+402,339,magazine,void,,void,40,-1,-1,void,-1
+403,1009,exit sign,void,,void,40,-1,-1,void,-1
+404,1273,rolled poster,void,,void,40,-1,-1,void,-1
+405,1274,wheel,void,,void,40,-1,-1,void,-1
+406,15,pictures,void,,picture,11,10,-1,picture,10
+407,1275,blackboard eraser,void,,void,40,-1,-1,void,-1
+408,361,organizer,void,,void,40,-1,-1,void,-1
+409,1276,doll,void,,void,40,-1,-1,void,-1
+410,326,book rack,void,,otherfurniture,39,19,-1,otherfurniture,19
+411,1277,laundry bag,void,2801938.0,void,40,-1,-1,void,-1
+412,1278,sponge,void,,void,40,-1,-1,void,-1
+413,116,seating,void,,otherfurniture,39,19,-1,otherfurniture,19
+414,1184,folded chairs,chair,3001627.0,chair,5,4,1,chair,4
+415,1279,lotion bottle,void,2876657.0,void,40,-1,-1,void,-1
+416,212,can,void,2946921.0,void,40,-1,-1,void,-1
+417,1280,lunch box,void,,void,40,-1,-1,void,-1
+418,1281,food display,void,,void,40,-1,-1,void,-1
+419,794,storage shelf,void,,void,40,-1,-1,void,-1
+420,1282,sliding wood door,void,,void,40,-1,-1,void,-1
+421,955,pants,void,,void,40,-1,-1,void,-1
+422,387,wood,void,,void,40,-1,-1,void,-1
+423,69,boards,void,,void,38,-1,-1,void,-1
+424,65,bottles,void,2876657.0,void,40,-1,-1,void,-1
+425,523,washcloth,void,,void,40,-1,-1,void,-1
+426,389,workbench,table,4379243.0,otherfurniture,39,19,0,other_table,24
+427,29,open kitchen cabinet,void,,cabinet,3,2,-1,kitchen_cabinet,20
+428,1283,organizer shelf,bookshelf,2871439.0,void,15,-1,2,other_shelf,23
+429,146,frame,void,,void,38,-1,-1,void,-1
+430,130,cups,void,3797390.0,void,40,-1,-1,void,-1
+431,372,exercise ball,void,,void,40,-1,-1,void,-1
+432,289,easel,void,,otherfurniture,39,19,-1,otherfurniture,19
+433,440,garbage bag,void,2773838.0,void,37,-1,-1,void,-1
+434,321,roomba,void,,void,40,-1,-1,void,-1
+435,976,garage door,void,,void,38,-1,-1,void,-1
+436,1256,luggage rack,void,,otherfurniture,39,19,-1,otherfurniture,19
+437,1284,bike lock,void,,void,40,-1,-1,void,-1
+438,1285,briefcase,void,,void,40,-1,-1,void,-1
+439,357,hand towel,void,,void,27,-1,-1,void,-1
+440,1286,bath products,void,,void,40,-1,-1,void,-1
+441,1287,star,void,,void,40,-1,-1,void,-1
+442,365,map,void,,void,40,-1,-1,void,-1
+443,1288,coffee bean bag,void,2773838.0,void,37,-1,-1,void,-1
+444,81,headboard,void,,otherfurniture,39,19,-1,otherfurniture,19
+445,1289,ipad,void,,void,40,-1,-1,void,-1
+446,1290,display rack,void,,otherfurniture,39,19,-1,otherfurniture,19
+447,948,traffic cone,void,,void,40,-1,-1,void,-1
+448,174,toiletry,void,,void,40,-1,-1,void,-1
+449,1028,canopy,void,,void,40,-1,-1,void,-1
+450,1291,massage chair,chair,3001627.0,chair,5,4,1,chair,4
+451,1292,paper organizer,void,,void,40,-1,-1,void,-1
+452,1005,barricade,void,,void,40,-1,-1,void,-1
+453,235,platform,void,,void,38,-1,-1,void,-1
+454,1293,cap,void,,void,40,-1,-1,void,-1
+455,1294,dumbbell plates,void,,void,40,-1,-1,void,-1
+456,1295,elevator,void,,void,38,-1,-1,void,-1
+457,1296,cooking pan,void,,void,40,-1,-1,void,-1
+458,1297,trash bag,void,,void,37,-1,-1,void,-1
+459,1298,santa,void,,void,40,-1,-1,void,-1
+460,1299,jewelry box,void,,void,29,-1,-1,void,-1
+461,1300,boat,void,,void,40,-1,-1,void,-1
+462,1301,sock,void,,void,21,-1,-1,void,-1
+463,1051,kinect,void,,void,40,-1,-1,void,-1
+464,566,crib,void,,otherfurniture,39,19,-1,otherfurniture,19
+465,1302,plastic storage bin,void,,void,40,-1,-1,void,-1
+466,1062,cooler,cabinet,,refridgerator,24,14,5,refridgerator,14
+467,1303,kitchen apron,void,,void,21,-1,-1,void,-1
+468,1304,dishwashing soap bottle,void,2876657.0,void,40,-1,-1,void,-1
+469,1305,xbox controller,void,,void,40,-1,-1,void,-1
+470,1306,banana holder,void,,void,40,-1,-1,void,-1
+471,298,ping pong paddle,void,,void,40,-1,-1,void,-1
+472,1307,airplane,void,,void,40,-1,-1,void,-1
+473,1308,conditioner bottle,void,2876657.0,void,40,-1,-1,void,-1
+474,1309,tea kettle,void,,void,40,-1,-1,void,-1
+475,43,bedframe,void,,otherfurniture,39,19,-1,otherfurniture,19
+476,1310,wood beam,void,,void,38,-1,-1,void,-1
+477,593,toilet paper package,void,,void,40,-1,-1,void,-1
+478,1311,wall mounted coat rack,void,,void,40,-1,-1,void,-1
+479,1312,film light,void,,void,40,-1,-1,void,-1
+480,749,ceiling lamp,void,3636649.0,void,35,-1,-1,void,-1
+481,623,chain,void,,void,40,-1,-1,void,-1
+482,1313,sofa,sofa,4256520.0,sofa,6,5,3,sofa,5
+483,99,closet wardrobe,void,,otherfurniture,39,19,-1,otherfurniture,19
+484,265,sweater,void,,void,40,-1,-1,void,-1
+485,1314,kitchen mixer,void,,void,40,-1,-1,void,-1
+486,99,wardrobe,void,,otherfurniture,39,19,-1,otherfurniture,19
+487,1315,water softener,void,,void,40,-1,-1,void,-1
+488,448,banister,void,,void,38,-1,-1,void,-1
+489,257,trolley,void,,void,40,-1,-1,void,-1
+490,1316,pantry shelf,bookshelf,2871439.0,void,15,-1,2,other_shelf,23
+491,786,sofa bed,void,2818832.0,bed,4,3,-1,bed,3
+492,801,loofa,void,,void,40,-1,-1,void,-1
+493,972,shower faucet handle,void,,void,40,-1,-1,void,-1
+494,1317,toy piano,void,,void,40,-1,-1,void,-1
+495,1318,fish,void,,void,40,-1,-1,void,-1
+496,75,file cabinets,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+497,657,cat litter box,void,,void,29,-1,-1,void,-1
+498,561,electric panel,void,,void,40,-1,-1,void,-1
+499,93,suitcases,void,,void,40,-1,-1,void,-1
+500,513,curtain rod,void,,void,38,-1,-1,void,-1
+501,411,bunk bed,void,2818832.0,otherfurniture,39,19,-1,otherfurniture,19
+502,1122,chandelier,void,,void,38,-1,-1,void,-1
+503,922,tape,void,,void,40,-1,-1,void,-1
+504,88,plates,void,,void,40,-1,-1,void,-1
+505,518,alarm,void,3046257.0,void,40,-1,-1,void,-1
+506,814,fire hose,void,,void,40,-1,-1,void,-1
+507,1319,toy dinosaur,void,,void,40,-1,-1,void,-1
+508,1320,cone,void,,void,40,-1,-1,void,-1
+509,649,glass doors,void,,door,8,7,-1,door,7
+510,607,hatrack,void,,void,40,-1,-1,void,-1
+511,819,subwoofer,void,3691459.0,void,40,-1,-1,void,-1
+512,1321,fire sprinkler,void,,void,40,-1,-1,void,-1
+513,1322,trash cabinet,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+514,1204,pantry walls,void,,wall,1,0,-1,wall,0
+515,227,photo,void,,void,40,-1,-1,void,-1
+516,817,barrier,void,,void,40,-1,-1,void,-1
+517,130,stacks of cups,void,,void,40,-1,-1,void,-1
+518,712,beachball,void,,void,40,-1,-1,void,-1
+519,1323,folded boxes,void,,void,40,-1,-1,void,-1
+520,1324,contact lens solution bottle,void,2876657.0,void,40,-1,-1,void,-1
+521,673,covered box,void,,void,29,-1,-1,void,-1
+522,459,folder,void,,void,40,-1,-1,void,-1
+523,643,mail trays,void,,void,40,-1,-1,void,-1
+524,238,slipper,void,,void,40,-1,-1,void,-1
+525,765,magazine rack,void,,otherfurniture,39,19,-1,otherfurniture,19
+526,1008,sticker,void,,void,40,-1,-1,void,-1
+527,225,lotion,void,,void,40,-1,-1,void,-1
+528,1083,buddha,void,,void,40,-1,-1,void,-1
+529,813,file organizer,void,,void,40,-1,-1,void,-1
+530,138,paper towel rolls,void,,void,40,-1,-1,void,-1
+531,1145,night lamp,void,3636649.0,void,35,-1,-1,void,-1
+532,796,fuse box,void,,void,40,-1,-1,void,-1
+533,1325,knife block,void,,void,40,-1,-1,void,-1
+534,363,furnace,void,,otherfurniture,39,19,-1,otherfurniture,19
+535,1174,cd cases,void,,void,40,-1,-1,void,-1
+536,38,stools,void,,void,40,-1,-1,void,-1
+537,1326,hand sanitzer dispenser,void,,void,40,-1,-1,void,-1
+538,997,teapot,void,,void,40,-1,-1,void,-1
+539,1327,pen holder,void,,void,40,-1,-1,void,-1
+540,1328,tray rack,void,,void,40,-1,-1,void,-1
+541,1329,wig,void,,void,40,-1,-1,void,-1
+542,182,switch,void,,void,40,-1,-1,void,-1
+543,280,plastic containers,void,,void,40,-1,-1,void,-1
+544,1330,night light,void,,void,40,-1,-1,void,-1
+545,1331,notepad,void,,void,40,-1,-1,void,-1
+546,1332,mail bin,void,,void,40,-1,-1,void,-1
+547,1333,elevator button,void,,void,40,-1,-1,void,-1
+548,939,gaming wheel,void,,void,40,-1,-1,void,-1
+549,1334,drum set,void,,void,40,-1,-1,void,-1
+550,480,cosmetic bag,void,,void,37,-1,-1,void,-1
+551,907,coffee mug,void,3797390.0,void,40,-1,-1,void,-1
+552,1335,closet shelf,bookshelf,2871439.0,void,15,-1,2,other_shelf,23
+553,1336,baby mobile,void,,void,40,-1,-1,void,-1
+554,829,diaper bin,void,,void,40,-1,-1,void,-1
+555,947,door wall,void,,wall,1,0,-1,wall,0
+556,1116,stepstool,void,,void,40,-1,-1,void,-1
+557,599,paper shredder,void,,void,40,-1,-1,void,-1
+558,733,dress rack,void,,void,40,-1,-1,void,-1
+559,123,cover,void,,void,40,-1,-1,void,-1
+560,506,shopping bag,void,,void,37,-1,-1,void,-1
+561,569,sliding door,void,,door,8,7,-1,door,7
+562,1337,exercise bike,void,,void,40,-1,-1,void,-1
+563,1338,recliner chair,chair,3001627.0,chair,5,4,1,chair,4
+564,1314,kitchenaid mixer,void,,void,40,-1,-1,void,-1
+565,1339,soda can,void,2946921.0,void,40,-1,-1,void,-1
+566,1340,stovetop,void,4330267.0,void,38,-1,-1,void,-1
+567,851,stepladder,void,,otherfurniture,39,19,-1,otherfurniture,19
+568,142,tap,void,3325088.0,void,40,-1,-1,void,-1
+569,436,cable,void,,void,40,-1,-1,void,-1
+570,1341,baby changing station,void,,otherfurniture,39,19,-1,otherfurniture,19
+571,1342,costume,void,,void,21,-1,-1,void,-1
+572,885,rocking chair,chair,3001627.0,chair,5,4,1,chair,4
+573,693,binder,void,,void,40,-1,-1,void,-1
+574,815,media center,cabinet,2933112.0,cabinet,3,2,5,cabinet,2
+575,401,towel rack,void,,void,40,-1,-1,void,-1
+576,1343,medal,void,,void,40,-1,-1,void,-1
+577,1184,stack of folded chairs,chair,3001627.0,chair,5,4,1,chair,4
+578,1344,telescope,void,,void,40,-1,-1,void,-1
+579,1345,closet doorframe,void,,door,8,7,-1,door,7
+580,160,glass,void,,void,38,-1,-1,void,-1
+581,1126,baseball cap,void,2954340.0,void,40,-1,-1,void,-1
+582,1346,battery disposal jar,void,3593526.0,void,40,-1,-1,void,-1
+583,332,mop,void,,void,40,-1,-1,void,-1
+584,397,tank,void,,void,40,-1,-1,void,-1
+585,643,mail tray,void,,void,40,-1,-1,void,-1
+586,551,centerpiece,void,,void,40,-1,-1,void,-1
+587,1163,stick,void,,void,40,-1,-1,void,-1
+588,1347,closet floor,void,,floor,2,1,-1,floor,1
+589,1348,dryer sheets,void,,void,40,-1,-1,void,-1
+590,803,bycicle,void,,void,40,-1,-1,void,-1
+591,484,flower stand,void,,otherfurniture,39,19,-1,otherfurniture,19
+592,1349,air mattress,void,2818832.0,bed,4,3,-1,bed,3
+593,1350,clip,void,,void,40,-1,-1,void,-1
+594,222,side table,table,4379243.0,table,7,6,0,table,6
+595,1253,pizza boxes,void,,void,29,-1,-1,void,-1
+596,1351,display,void,,otherfurniture,39,19,-1,otherfurniture,19
+597,1352,postcard,void,,void,40,-1,-1,void,-1
+598,828,display sign,void,,void,40,-1,-1,void,-1
+599,1353,paper towel,void,,void,40,-1,-1,void,-1
+600,612,boots,void,,void,40,-1,-1,void,-1
+601,1354,tennis racket bag,void,,void,40,-1,-1,void,-1
+602,1355,air hockey table,table,4379243.0,table,7,6,0,table,6
+603,1301,socks,void,,void,21,-1,-1,void,-1
+604,1356,food bag,void,,void,37,-1,-1,void,-1
+605,1199,clothes hangers,void,,void,40,-1,-1,void,-1
+606,1357,starbucks cup,void,3797390.0,void,40,-1,-1,void,-1

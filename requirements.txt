@@ -1,0 +1,8 @@
+open3d
+plyfile
+pyMCubes
+trimesh
+tensorboardX
+tensorboard
+vtk==9.0.1
+cython

@@ -1,0 +1,3 @@
+[submodule "lib/light-field-distance"]
+	path = lib/light-field-distance
+	url = https://github.com/ashawkey/light-field-distance
