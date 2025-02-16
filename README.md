@@ -8,6 +8,8 @@ Given an uncolored 3D point cloud of a indoor scene, JIMR recognizes instance ob
 To do so, a network with two cascaded stages is designed:
 ![teaser](./assets/network.PNG)
 
+## News
+- 2025.02.16 update google drive link
 ## 📝Todo
 - [x] Release code for inference. 2024.05.22
 - [ ] clean and reorganize the code
@@ -114,7 +116,7 @@ To do so:
 * download the preprocessed ShapeNet (simplified watertight mesh) following [RfDNet](https://github.com/GAP-LAB-CUHK-SZ/RfDNet) into `ShapeNetv2_data`, only the `watertight_scaled_simplified`, `points`, `point_cloud` are used.
 
 
-Our pretrained weight of JIMR can be downloaded from: [this Google Drive link](https://drive.google.com/file/d/1fXYDLffHUC3egB8ZaUaWO8EeFfk093FI/view?usp=sharing). 
+Our pretrained weight of JIMR can be downloaded from this Google Drive link: [https://drive.google.com/file/d/1dCmNHeZ3K-OS1jE1anEy4xfN8RgKRGTV/view?usp=drive_link](https://drive.google.com/file/d/1dCmNHeZ3K-OS1jE1anEy4xfN8RgKRGTV/view?usp=drive_link)
 You can 
 put it in the root path as ```/jimr/jimr_spconv2.pth```, or anywhere you want, but modify the config files accordingly.
 ## 💻Usage
