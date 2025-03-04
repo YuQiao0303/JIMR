@@ -101,7 +101,7 @@ We aim to organize our dataset folder as following:
 │   │   ├── rfs_label_map.csv # generated label mappings
 │   ├── ShapeNetv2_data # preprocessed shapenet dataset
 │   │   ├── watertight_scaled_simplified
-│   │   ├── points
+│   │   ├── point
 │   │   ├── point_cloud
 │   ├── splits # data splits
 │   │   ├── train.txt
@@ -113,7 +113,7 @@ To do so:
 * download the data preprocesssed by [DIMR](https://github.com/ashawkey/dimr) authors [here](https://drive.google.com/file/d/1lJUWMQ2g-a1r2QGjawpgU3jVCCqF-DLO/view?usp=sharing) (~3.3G).
 
 
-* download the preprocessed ShapeNet (simplified watertight mesh) following [RfDNet](https://github.com/GAP-LAB-CUHK-SZ/RfDNet) into `ShapeNetv2_data`, only the `watertight_scaled_simplified`, `points`, `point_cloud` are used.
+* download the preprocessed ShapeNet (simplified watertight mesh) following [RfDNet](https://github.com/GAP-LAB-CUHK-SZ/RfDNet) into `ShapeNetv2_data`, only the `watertight_scaled_simplified`, `point`, `point_cloud` are used.
 
 
 Our pretrained weight of JIMR can be downloaded from this Google Drive link: [https://drive.google.com/file/d/1dCmNHeZ3K-OS1jE1anEy4xfN8RgKRGTV/view?usp=drive_link](https://drive.google.com/file/d/1dCmNHeZ3K-OS1jE1anEy4xfN8RgKRGTV/view?usp=drive_link)

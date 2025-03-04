@@ -96,6 +96,7 @@ def test(model, model_fn, data_name, epoch):
             ##### get predictions
             if not cfg.use_gt_seg_and_bbox :
                 semantic_pred = preds['semantic_pred'] # CAD
+                semantic_pred_all_cls = preds['semantic_pred_all_cls'] # not CAD
                 pt_offsets = preds['pt_offsets']
                 # pt_angles = preds['pt_angles']
 
@@ -141,7 +142,8 @@ def test(model, model_fn, data_name, epoch):
                 # save semantics.
                 if cfg.save_semantic:
                     os.makedirs(os.path.join(result_dir, 'semantic'), exist_ok=True)
-                    semantic_np = semantic_pred.cpu().numpy()
+                    # semantic_np = semantic_pred.cpu().numpy()
+                    semantic_np = semantic_pred_all_cls.cpu().numpy()
                     np.save(os.path.join(result_dir, 'semantic', test_scene_name + '.npy'), semantic_np)
 
                 # save offsets
@@ -217,9 +219,9 @@ def test(model, model_fn, data_name, epoch):
                         score = 1
 
                     mesh.export(os.path.join(result_dir, "meshes", f"{test_scene_name}_{proposal_id}_gt_{pred_corresponding_gt_mesh_id[proposal_id]}_{CAD_labels[semantic_label]}_{score:.4f}.ply"))
-                    if isinstance(mesh, PolyMesh):
-                        tmesh = mesh.to_trimesh()
-                        tmesh.export(os.path.join(result_dir, "trimeshes", f"{test_scene_name}_{proposal_id}_gt_{pred_corresponding_gt_mesh_id[proposal_id]}_{CAD_labels[semantic_label]}_{score:.4f}.ply"))
+                    # if isinstance(mesh, PolyMesh):
+                    #     tmesh = mesh.to_trimesh()
+                    #     tmesh.export(os.path.join(result_dir, "trimeshes", f"{test_scene_name}_{proposal_id}_gt_{pred_corresponding_gt_mesh_id[proposal_id]}_{CAD_labels[semantic_label]}_{score:.4f}.ply"))
 
             if epoch > cfg.prepare_epochs_3 and cfg.save_cano_mesh:
                 # save meshes.

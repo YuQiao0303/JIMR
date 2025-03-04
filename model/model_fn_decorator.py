@@ -194,6 +194,7 @@ def model_fn_decorator(test=False):
 
 
             semantic_scores = ret['semantic_scores_CAD']  # (N, nClass) float32, cuda
+            semantic_scores_all_cls = ret['semantic_scores'] # all stage-1 classes including walls and floors
             pt_offsets = ret['pt_offsets']  # (N, 3), float32, cuda
 
             # pt_angles = ret['pt_angles']  # [N, 24]
@@ -202,6 +203,7 @@ def model_fn_decorator(test=False):
 
 
             semantic_pred = semantic_scores.max(1)[1]  # (N) long, cuda
+            semantic_pred_all_cls = semantic_scores_all_cls.max(1)[1]  # (N) long, cuda
 
         '''Phase 1.5'''
         if epoch > cfg.prepare_epochs and not use_gt_seg_and_bbox:
@@ -566,6 +568,7 @@ def model_fn_decorator(test=False):
         # Phase 1
         if not use_gt_seg_and_bbox:
             preds['semantic_pred'] = semantic_pred
+            preds['semantic_pred_all_cls'] = semantic_pred_all_cls
             preds['pt_offsets'] = pt_offsets
             preds['pt_bboxes'] = pred_7_dim_bbox
             preds['pt_angle_param'] = pred_angle_param
