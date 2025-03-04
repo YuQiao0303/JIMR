@@ -101,8 +101,8 @@ We aim to organize our dataset folder as following:
 │   │   ├── rfs_label_map.csv # generated label mappings
 │   ├── ShapeNetv2_data # preprocessed shapenet dataset
 │   │   ├── watertight_scaled_simplified
-│   │   ├── watertight_scaled_simplified
-│   │   ├── watertight_scaled_simplified
+│   │   ├── points
+│   │   ├── point_cloud
 │   ├── splits # data splits
 │   │   ├── train.txt
 │   │   ├── val.txt
