@@ -133,17 +133,17 @@ This work is built on many amazing research works and open-source projects, than
 
 
 ## 📚Citation
-If you find our work useful in your research, please consider citing our paper. We will update the citation information soon.
+If you find our work useful in your research, please consider citing our paper. 
 ```
-@ARTICLE{JIMR,
+@ARTICLE{10526474,
   author={Yu, Qiao and Li, Xianzhi and Tang, Yuan and Xu, Jinfeng and Hu, Long and Hao, Yixue and Chen, Min},
   journal={IEEE Transactions on Visualization and Computer Graphics}, 
   title={JIMR: Joint Semantic and Geometry Learning for Point Scene Instance Mesh Reconstruction}, 
-  year={2024},
-  volume={},
-  number={},
-  pages={1-13},
-  keywords={Task analysis;Three-dimensional displays;Semantics;Proposals;Instance segmentation;Shape;Point cloud compression;3D reconstruction;3 d scene understanding;instance mesh reconstruction},
+  year={2025},
+  volume={31},
+  number={8},
+  pages={4270-4282},
+  keywords={Task analysis;Three-dimensional displays;Semantics;Proposals;Instance segmentation;Shape;Point cloud compression;Instance mesh reconstruction;3D scene under standing;3D reconstruction},
   doi={10.1109/TVCG.2024.3398737}}
 
 ``` 
