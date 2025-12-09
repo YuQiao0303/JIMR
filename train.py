@@ -344,12 +344,9 @@ if __name__ == '__main__':
     ##### model
     logger.info('=> creating model ...')
 
-    if not hasattr(cfg, 'network') or cfg.network == 'rfs':
-        from model.rfs import RfSNet as Network
-        from model.rfs import model_fn_decorator
-    elif cfg.network == 'network':
-        from model.network import Network
-        from model.model_fn_decorator import model_fn_decorator
+
+    from model.network import Network
+    from model.model_fn_decorator import model_fn_decorator
 
     model = Network(cfg)
 

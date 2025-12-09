@@ -342,13 +342,13 @@ class Network(nn.Module):
 
         ### load pretrained occupancy net
         if cfg.use_pretrained_onet:
-            onet_pretrain_dict = torch.load(os.path.join('datasets/onet', 'ONet.pth'))
+            onet_pretrain_dict = torch.load(os.path.join('pretrained_weights', 'ONet.pth'))
             self.onet.load_state_dict(onet_pretrain_dict, strict=True)
             print(f"Loaded pretrained O-Net: #params = {sum([p.numel() for p in self.onet.parameters()])}")
 
         ### load pretrained pcn
         if cfg.use_pretrained_pcn:
-            pcn_pretrain_dict = torch.load(os.path.join('datasets/pcn', 'pcn.pth'))
+            pcn_pretrain_dict = torch.load(os.path.join('pretrained_weights', 'pcn.pth'))
             self.pcn.load_state_dict(pcn_pretrain_dict, strict=False)
             print(f"Loaded pretrained PCN: #params = {sum([p.numel() for p in self.onet.parameters()])}")
 

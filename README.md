@@ -9,12 +9,13 @@ To do so, a network with two cascaded stages is designed:
 ![teaser](./assets/network.PNG)
 
 ## News
+- 2025.12.09 Training code released!
 - 2025.02.16 update google drive link
 ## 📝Todo
 - [x] Release code for inference. 2024.05.22
 - [ ] clean and reorganize the code
 - [ ] Release code for demo (quick inference without GT)
-- [ ] Release code for training
+- [x] Release code for training
 - [ ] Release code for evaluation
 - [ ] Release code for visualization
 
@@ -119,7 +120,47 @@ To do so:
 Our pretrained weight of JIMR can be downloaded from this Google Drive link: [https://drive.google.com/file/d/1dCmNHeZ3K-OS1jE1anEy4xfN8RgKRGTV/view?usp=drive_link](https://drive.google.com/file/d/1dCmNHeZ3K-OS1jE1anEy4xfN8RgKRGTV/view?usp=drive_link)
 You can 
 put it in the root path as ```/jimr/jimr_spconv2.pth```, or anywhere you want, but modify the config files accordingly.
+
+### Download pretrained weights to train JIMR
+If you want to train JIMR by yourself, you also needs to download some other pretrained weights:
+for training jimr, prepare:
+- dimr_spconv2.pth: [DIMR](https://github.com/ashawkey/dimr)'s weight, but we transform it from spconv1 to spconv2 by code in util/convert_checkopoint.py.
+- ONet: [Occupancy Network](https://github.com/autonomousvision/occupancy_networks)'s weight, but we finetune it on the categories in JIMR.
+- PCN: [PCN](https://github.com/wentaoyuan/pcn)'s weight.
+
+We also provide our JIMR's pretrained phase1 checkpoint:
+- jimr_trained_phase1_spconv2.pth: this checkpoint was original gained by training with spconv1. Hhere we tranwform it to spconv2.
+
+The above pretrained weights can be downloaded from this link:
+[https://drive.google.com/file/d/1Luqsqp7WGliPmXyMWeOOFBAGRqQQdLos/view?usp=sharing](https://drive.google.com/file/d/1Luqsqp7WGliPmXyMWeOOFBAGRqQQdLos/view?usp=sharing).
+
+After downloading. Unzip this file, and organize the files as:
+```bash
+.
+├──pretrained_weights
+│   ├── dimr_spconv2.pth
+│   ├── ONet.pth
+│   ├── pcn.pth
+│   ├── jimr_trained_phase1_spconv2.pth
+│
+```
+
 ## 💻Usage
+### Training
+Train phase1:
+```bash
+CUDA_VISIBLE_DEVICES=0 python train.py --config config/train_phase1_scannet.yaml
+```
+The results will be saved in ```exp/scannetv2/rfs/train_phase1_scannet```.
+
+
+Train phase2:
+```bash
+CUDA_VISIBLE_DEVICES=0 python train.py --config config/train_phase2_scannet.yaml
+```
+The results will be saved in ```exp/scannetv2/rfs/train_phase2_scannet```.
+To use your own trained phase1's weights, modify 'pretrain_path' in train_phase2_scannet.yaml
+
 ### Run inference:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python test.py --config config/test_phase2_scannet.yaml
@@ -130,7 +171,8 @@ The results will be saved in ```exp/scannetv2/rfs/test_phase2_scannet```. You ca
 This work is built on many amazing research works and open-source projects, thanks a lot to all the authors for sharing!
 - [RfDNet](https://github.com/GAP-LAB-CUHK-SZ/RfDNet)
 - [DIMR](https://github.com/ashawkey/dimr)
-
+- [Occupancy Network](https://github.com/autonomousvision/occupancy_networks)
+- [PCN](https://github.com/wentaoyuan/pcn)
 
 ## 📚Citation
 If you find our work useful in your research, please consider citing our paper. 

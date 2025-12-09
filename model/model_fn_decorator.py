@@ -603,6 +603,574 @@ def model_fn_decorator(test=False):
 
         return preds
 
+
+    def model_fn(batch, model, epoch):
+
+        '''prepare data'''
+        coords = batch['locs'].cuda()  # (N, 1 + 3), long, cuda, dimension 0 for batch_idx
+        voxel_coords = batch['voxel_locs'].cuda()  # (M, 1 + 3), long, cuda
+        p2v_map = batch['p2v_map'].cuda()  # (N), int, cuda
+        v2p_map = batch['v2p_map'].cuda()  # (M, 1 + maxActive), int, cuda
+
+        coords_float = batch['locs_float'].cuda()  # (N, 3), float32, cuda
+        rgbs = batch['feats'].cuda()  # (N, C), float32, cuda
+        labels = batch['labels'].cuda()  # (N), long, cuda
+        instance_labels = batch['instance_labels'].cuda()  # (N), long, cuda, 0~total_nInst, -100
+
+        instance_info = batch['instance_info'].cuda()  # (N, 9), float32, cuda, (meanxyz, minxyz, maxxyz)
+        instance_pointnum = batch['instance_pointnum'].cuda()  # (total_nInst), int, cuda
+
+        instance_pc = batch['instance_pc'].cuda()  # added by Qiao
+        instance_points_for_occ = batch['instance_points_for_occ'].cuda()
+        instance_occ = batch['instance_occ'].cuda()
+
+
+        vis_points_and_occ = False
+        if vis_points_and_occ:
+            for i in range(instance_points_for_occ.shape[0]):
+                from visualization_utils import vis_actors_vtk, get_pc_actor_vtk, get_mesh_actor_vtk, \
+                    vis_occ_hat_voxel_vtk  # vis_np_histogram,# visualization
+                in_points = instance_points_for_occ[i][instance_occ[i] ==1]
+                out_points = instance_points_for_occ[i][instance_occ[i] ==0]
+                vis_actors_vtk([
+                    get_pc_actor_vtk(in_points.detach().cpu().numpy(),color = (1,0,0)),
+                    get_pc_actor_vtk(out_points.detach().cpu().numpy()),
+
+                ])
+
+
+
+        if hasattr(model, 'module'):
+            onet = model.module.onet
+            pcn = model.module.pcn
+            cls_score = model.module.cls_score
+            seg_score = model.module.seg_score
+            bbox_score = model.module.bbox_score2
+            mesh_score = model.module.mesh_score
+        else:
+            onet = model.onet
+            pcn = model.pcn
+            cls_score = model.cls_score
+            seg_score = model.seg_score
+            bbox_score = model.bbox_score2
+            mesh_score = model.mesh_score
+ 
+        instance_zs_valid = batch['instance_zs_valid'].cuda()  # (total_nInst), int, cuda
+
+        instance_bbox_size = batch['instance_bbox_size'].cuda()
+        instance_bboxes = batch['instance_bboxes'].cuda()
+        instance_semantic_CAD= batch['instance_semantic_CAD'].cuda()
+        instance_shapenet_catids = batch['instance_shapenet_catids'] #
+
+        batch_offsets = batch['offsets'].cuda()  # (B + 1), int, cuda
+
+        spatial_shape = batch['spatial_shape']
+
+
+        debug_bbox = False
+        if debug_bbox:
+            from visualization_utils import vis_actors_vtk, get_pc_actor_vtk, get_mesh_actor_vtk, \
+                vis_occ_hat_voxel_vtk  # vis_np_histogram,# visualization
+            from util.utils import standard_7_dim_bbox_to_bbox_surface_dist,_bbox_pred_to_bbox
+
+            # print('instance_shapenet_catids',instance_shapenet_catids) #instance_shapenet_catids ['03001627', '03001627', '03001627', '03001627', None, '04379243', None, None, None, None, None, None, None, None, None, '02933112']
+            # print('instance_semantic_CAD',instance_semantic_CAD) #([   1,    1,    1,    1, -100,    0, -100, -100, -100, -100, -100, -100,-100, -100, -100,    5],
+            for instance_id in [0,1,2,3,5,15]:
+
+                # real data
+                pc = coords_float[instance_labels == instance_id]
+                point = pc #[[108,0],:] # randomly select a point
+
+                bbox7 = instance_bboxes[instance_id]
+                angle = bbox7[6].repeat(point.shape[0],1)
+                # print('point,',point,point.shape)
+                # print('bbox7,',bbox7,bbox7.shape)
+
+
+
+                bbox_dist = standard_7_dim_bbox_to_bbox_surface_dist(point,bbox7)
+
+                # print('bbox_dist,', bbox_dist, bbox_dist.shape)
+                # print('angle,', angle, angle.shape)
+                bbox_dist_cat_angle = torch.cat([bbox_dist,angle],dim=1)
+
+                # print('bbox_dist_cat_angle',bbox_dist_cat_angle,bbox_dist_cat_angle.shape)
+                resume_bbox7 = _bbox_pred_to_bbox(point,bbox_dist_cat_angle,'naive')
+                print('bbox7',bbox7)
+                print('resume_bbox7',resume_bbox7.mean(0))
+                # print('bbox_dist',bbox_dist)
+                # print('point',point)
+
+
+                # in_points = instance_points_for_occ[i][instance_occ[i] == 1]
+                # out_points = instance_points_for_occ[i][instance_occ[i] == 0]
+                # vis_actors_vtk([
+                #     get_pc_actor_vtk(in_points.detach().cpu().numpy(), color=(1, 0, 0)),
+                #     get_pc_actor_vtk(out_points.detach().cpu().numpy()),
+                #
+                # ])
+                break
+
+            return
+
+        if cfg.use_coords:
+            feats = coords_float
+
+        if cfg.use_rgb:
+            feats = torch.cat((rgbs, feats), 1)
+
+
+        vis_input = False
+        if vis_input:
+            print('vis_input')
+
+            from visualization_utils import vis_actors_vtk, get_pc_actor_vtk
+            print('coords_float', coords_float)
+            print('feats', feats)
+            vis_actors_vtk([
+                get_pc_actor_vtk(coords_float.detach().cpu().numpy())
+            ])
+        '''Phase 1: get per points' seg and det results'''
+        if not cfg.use_gt_seg_and_bbox: 
+            voxel_feats = pointgroup_ops.voxelization(feats, v2p_map, cfg.mode)  # (M, C), float, cuda
+
+            input_ = spconv.SparseConvTensor(voxel_feats, voxel_coords.int(), spatial_shape, cfg.batch_size)
+
+           
+            ### model call
+            model_inp = {
+                'input': input_,
+                'input_map': p2v_map,
+                'coords': coords_float,
+                'batch_idxs': coords[:, 0].int(),
+                'batch_offsets': batch_offsets,
+                'epoch': epoch,
+                ##
+                # 'instance_info': instance_info,
+                # 'instance_labels':instance_labels,
+            }
+
+            ret = model(model_inp)
+
+            semantic_scores = ret['semantic_scores']  # (N, nClass) float32, cuda
+            semantic_scores_CAD = ret['semantic_scores_CAD']
+            pt_offsets = ret['pt_offsets']  # (N, 3), float32, cuda
+            # pt_angles = ret['pt_angles']  # (N, 24)
+            pt_bboxes, pred_angle_param = ret['pt_bboxes'] # (N,8)  bbox parameters
+
+            device = semantic_scores.device
+        ''' Phase 1.5: get grouped/merged cluster results'''
+        if epoch > cfg.prepare_epochs and (not cfg.use_gt_seg_and_bbox):
+            proposals_idx, proposals_offset = ret['proposal_info']  # = ( )
+            # proposals_idx_soft, proposals_offset_soft = ret['proposal_info_soft']  # = ( )
+
+            pred_cluster_bboxes ,clusters_angle_flip= ret['proposal_bboxes'] #= clusters_bboxes
+            clusters_semantics = ret['proposal_semantics']
+            cano_clusters_points_coords = ret['proposal_cano_points']
+            # match GT by max IoU (point cloud)
+            ious = pointgroup_ops.get_iou(proposals_idx[:, 1].cuda(), proposals_offset.cuda(), instance_labels,
+                                          instance_pointnum)  # (nProposal, nInstance), float
+            gt_ious, gt_instance_idxs = ious.max(1)  # (nProposal) float, long
+
+        
+
+        '''Phase2: get mesh and other scores'''
+        if epoch > cfg.prepare_epochs_2:
+            pred_cls_score=None
+            pred_seg_score=None
+
+            pred_mesh_score=None
+
+
+            if not cfg.use_gt_seg_and_bbox:
+                valid_cluster_num = instance_zs_valid[gt_instance_idxs].long().sum()
+                if valid_cluster_num > 0:
+                    # select good clusters, randomly sample fix number of points in them
+                    gt_ious = gt_ious * instance_zs_valid[gt_instance_idxs]  # keep CAD instances only, added by Qiao
+                    rand_k_indices = ext_pointgroup_ops.sec_rand_k_idx(2048, proposals_offset.cuda()).long()
+                    pred_fix_num_pcs = cano_clusters_points_coords[rand_k_indices]  # [cluster_num, 2048, 3])
+                    selected_cluster_ids = select_good_clusters(gt_ious, gt_instance_idxs, instance_zs_valid)
+                    selected_pred_fix_num_pcs = pred_fix_num_pcs[selected_cluster_ids]
+                    selected_pred_cluster_bboxes = pred_cluster_bboxes[selected_cluster_ids]  # [10,7]
+                    fix_num_canonical_cluster_pcs = selected_pred_fix_num_pcs
+
+                    # rescale gt template
+                    selected_gt_pc_wo_rescale = instance_pc[gt_instance_idxs[selected_cluster_ids]]
+                    complete_template_pc_scale_xyz = torch.max(selected_gt_pc_wo_rescale, 1)[0] - \
+                                                     torch.min(selected_gt_pc_wo_rescale, 1)[0]  # # [10,3]
+                    complete_template_pc_scale_xyz = complete_template_pc_scale_xyz.unsqueeze(1)  # [10,1,3]
+                    complete_template_pc_scale_xyz = complete_template_pc_scale_xyz.repeat(1, 2048, 1)  # [10,2048,3]
+                    complete_template_pc_scale_xyz = complete_template_pc_scale_xyz.view((-1, 3))  # [20480,3]
+
+                    selected_pred_cluster_bboxes = selected_pred_cluster_bboxes.unsqueeze(1)  # 10,1,7
+                    selected_pred_cluster_bboxes = selected_pred_cluster_bboxes.repeat(1, 2048, 1)  # 10,2048,7
+                    selected_pred_cluster_bboxes = selected_pred_cluster_bboxes.view(-1, 7)  # 20480,7
+
+                    selected_gt_pc_wo_rescale = selected_gt_pc_wo_rescale.view((-1, 3))  # [20480,3]
+
+                    selected_gt_pc = selected_gt_pc_wo_rescale / complete_template_pc_scale_xyz
+
+                    selected_gt_pc *= selected_pred_cluster_bboxes[:, [4, 5, 3]]
+                    scale = torch.max(selected_pred_cluster_bboxes[:, [4, 5, 3]], dim=1)[0]
+                    selected_gt_pc[:, 0] /= scale
+                    selected_gt_pc[:, 1] /= scale
+                    selected_gt_pc[:, 2] /= scale
+                    selected_gt_pc = selected_gt_pc.view(-1, 2048, 3)
+                    rescale_gt_pcs = selected_gt_pc
+
+                    # Encode clusters
+                    # torch.autograd.set_detect_anomaly(True)
+                    all_cluster_features = pcn.encoder(pc_cano2pcn_torch(pred_fix_num_pcs.detach()))
+                    # selected_cluster_features = pcn.encoder(pc_cano2pcn_torch(selected_pred_fix_num_pcs.detach()))
+                    selected_cluster_features = all_cluster_features[selected_cluster_ids]
+
+                    # segmentation score branch
+                    pred_seg_score = seg_score(all_cluster_features)
+
+                    # cls score branch
+                    pred_cls_score = cls_score(selected_cluster_features)  # (N, nClass), float32, cuda.  (nClass = 8)
+
+                    # bbox score branch
+                    pred_bbox_score = bbox_score(selected_cluster_features)
+
+                    # mesh score branch
+                    pred_mesh_score = mesh_score(selected_cluster_features)
+
+                    # mesh score
+
+                    # mesh branch
+                    pred_complete_pcs = pc_pcn2cano(pcn.decoder(selected_cluster_features))  # complete
+                    zs = onet.student_encoder(pred_complete_pcs)  # encode completed point clouds, [cluster_num, 512]
+                    input_points_for_completion = instance_points_for_occ[gt_instance_idxs[selected_cluster_ids]]
+                    pred_occ_logits = onet.decode(input_points_for_completion, z=None, features=zs)[
+                        0].logits  # .logits .probs  [cluster_num, 2048]
+
+                    teacher_zs = onet.teacher_encoder(rescale_gt_pcs)
+                    gt_occ = instance_occ[gt_instance_idxs[selected_cluster_ids]]
+   
+                    complete_pcs = pred_complete_pcs
+
+                    vis_pred_gt_pc = False
+                    if vis_pred_gt_pc:
+                        from visualization_utils import vis_actors_vtk, get_pc_actor_vtk, get_mesh_actor_vtk, \
+                            vis_occ_hat_voxel_vtk  # vis_np_histogram,# visualization
+                        # selected_gt_pc = selected_gt_pc.view(-1, 2048, 3)
+                        wo_scale_teacher_zs = onet.teacher_encoder(selected_gt_pc_wo_rescale.view(-1, 2048, 3))
+
+                        teacher_meshes = onet.generator.generate_mesh(wo_scale_teacher_zs, cls_codes=None, teacher=True)
+                        for i in range(selected_gt_pc.shape[0]):
+                            in_points = input_points_for_completion[i][pred_occ_logits[i] > 0]
+                            out_points = input_points_for_completion[i][pred_occ_logits[i] < 0]
+                            vis_actors_vtk([
+                                # get_pc_actor_vtk(selected_gt_pc[i].detach().cpu().numpy()),  # gt pc
+                                # # get_pc_actor_vtk(selected_gt_pc_wo_rescale.view((-1, 2048, 3))[i].detach().cpu().numpy()), # gt pc w.o. rescale
+                                get_pc_actor_vtk(selected_pred_fix_num_pcs[i].detach().cpu().numpy(), color=(1, 0, 0)),  # pred_cluster_pc red
+                                get_pc_actor_vtk(pred_complete_pcs[i].detach().cpu().numpy(), color=(0, 1, 0)), # pred complete pc green
+                                # # pcn completed pc
+                                #
+                                # get_pc_actor_vtk(in_points.detach().cpu().numpy(), color=(1, 0, 0)),
+                                # onet predict in mesh points
+                                # get_pc_actor_vtk(out_points.detach().cpu().numpy()),
+                                get_mesh_actor_vtk(teacher_meshes[i])
+                            ])
+                            # teacher_meshes[i].export(f"L2_teacher_mesh{i}.ply")
+                            # print('saved',i)
+
+                else:
+                    print("!!!!!!!!!!!!! no CAD cluster !!!!!!!!!", valid_cluster_num)
+
+            else: # use gt_seg_and_bbox
+                device = coords_float.device
+                all_instance_num = instance_pc.shape[0]
+                valid_cluster_num = instance_zs_valid.long().sum()
+              
+                all_point_num = instance_labels.shape[0]
+                valid_instance_id = torch.arange(all_instance_num)[instance_zs_valid.bool() == True].to(
+                    device).long()
+                selected_cluster_ids = valid_instance_id
+                instance_points_idx = torch.arange(all_point_num)[instance_labels != -100].to(
+                    device).long()  # all instance points idx
+                instance_label_sort = torch.argsort(instance_labels[instance_points_idx], descending=False)
+
+                proposals_idx = instance_points_idx[instance_label_sort]
+                labels = instance_labels[instance_points_idx][instance_label_sort]
+                proposals_idx = torch.vstack([labels, proposals_idx]).T
+                proposals_offset = torch.cumsum(torch.cat((torch.zeros((1)).to(device), (instance_pointnum)), 0),
+                                                dim=0).long()
+                gt_instance_idxs = torch.arange(all_instance_num).to(device).long()
+
+                return_dict = \
+                    get_selected_cluster_pc(proposals_offset, proposals_idx, coords_float, valid_instance_id,
+                                            gt_instance_idxs, proposals_semantics=None,
+                                            instance_bboxes=instance_bboxes,
+                                            pred_bbox=None, instance_pc=instance_pc, use_gt_seg=True)
+
+                fix_num_canonical_cluster_pcs = return_dict['fix_num_canonical_cluster_pcs']
+
+                rescale_gt_pcs = return_dict['rescale_gt_pcs']
+                # cluster_bboxes = return_dict['cluster_bboxes']
+                # fix_num_world_cluster_pcs = return_dict['fix_num_world_cluster_pcs']
+                cluster_valid_mask = return_dict['cluster_valid_mask']
+                # print('cluster_valid_mask',cluster_valid_mask)
+
+                input_points_for_completion = instance_points_for_occ[gt_instance_idxs[selected_cluster_ids]][cluster_valid_mask.bool()]
+
+                gt_occ = instance_occ[gt_instance_idxs[selected_cluster_ids]][cluster_valid_mask.bool()]
+                teacher_zs = onet.teacher_encoder(rescale_gt_pcs)
+
+                # PCN encoding
+                xyz = pc_cano2pcn_torch(fix_num_canonical_cluster_pcs)
+                B, N, _ = xyz.shape
+                feature = pcn.first_conv(xyz.transpose(2, 1))
+                # print('feature.shape',feature.shape)# (B,  256, N)
+                feature_global = torch.max(feature, dim=2, keepdim=True)[0]  # (B,  256, 1) # this line
+                feature = torch.cat([feature_global.expand(-1, -1, N), feature], dim=1)  # (B,  512, N)
+                feature = pcn.second_conv(feature)  # (B, 1024, N)
+                feature_global = torch.max(feature, dim=2, keepdim=False)[0]  # (B, 1024)
+
+                # PCN decoding
+                # complete_pcs = pcn(pc_cano2pcn_torch(fix_num_canonical_cluster_pcs))  # rotate them to fit pretrained PCN
+                complete_pcs =  pcn.mlp(feature_global).reshape(-1, pcn.num_coarse, 3).contiguous()
+                # bbox_scores = self.z_bbox_score(feature_global)
+
+
+
+                complete_pcs = pc_pcn2cano(complete_pcs)  # rotate back to fit GT
+                zs = onet.student_encoder(complete_pcs)
+                pred_occ_logits = onet.decode(input_points_for_completion, z = None, features=zs)[0].logits  # .logits .probs
+
+                # complete_pc = pcn(fix_num_canonical_cluster_pcs)
+                vis_onet_results = False
+                if vis_onet_results:
+                    for i in range(zs.shape[0]):
+                        from visualization_utils import vis_actors_vtk, get_pc_actor_vtk, get_mesh_actor_vtk, \
+                            vis_occ_hat_voxel_vtk  # vis_np_histogram,# visualization
+                        in_points = input_points_for_completion[i][occ[i] >0]
+                        out_points = input_points_for_completion[i][occ[i] <0]
+                        vis_actors_vtk([
+                            get_pc_actor_vtk(in_points.detach().cpu().numpy(), color=(1, 0, 0)),
+                            get_pc_actor_vtk(out_points.detach().cpu().numpy()),
+
+                        ])
+
+        ''' Parepare loss inputs: pred and gt'''
+        loss_inp = {}
+        ### Phase1: Per point results
+        if not cfg.use_gt_seg_and_bbox:
+            loss_inp['semantic_scores'] = (semantic_scores, labels,  instance_semantic_CAD,instance_shapenet_catids)
+            loss_inp['pt_offsets'] = (pt_offsets, coords_float, instance_info, instance_labels)
+            loss_inp['pt_bboxes'] = (pt_bboxes,pred_angle_param, instance_bboxes, instance_bbox_size ,instance_zs_valid)
+
+        ### Phase1.5: merged clsuter results
+        if epoch > cfg.prepare_epochs and not cfg.use_gt_seg_and_bbox:
+            loss_inp['proposal_info'] = (proposals_idx, proposals_offset)  # ret['proposal_info']
+            loss_inp['gt_info'] = gt_ious,gt_instance_idxs
+            loss_inp['proposal_bbox'] = pred_cluster_bboxes ,pred_cluster_bboxes
+            loss_inp['instance_pc'] = instance_pc
+
+        ### Phase1.5: merged clsuter results
+        if epoch > cfg.prepare_epochs_2:
+            if not cfg.use_gt_seg_and_bbox:
+                loss_inp['gt_info'] = gt_ious, gt_instance_idxs
+                loss_inp['CAD_instance_num'] = valid_cluster_num
+                if valid_cluster_num>0:
+                    loss_inp['completion_data'] = (fix_num_canonical_cluster_pcs,rescale_gt_pcs,complete_pcs,
+                                                   pred_occ_logits,gt_occ, zs,teacher_zs)
+                    loss_inp['scores'] = (pred_cls_score,pred_seg_score,pred_bbox_score,pred_mesh_score)
+                    loss_inp['selected_cluster_ids'] = selected_cluster_ids
+            else:
+                loss_inp['completion_data'] = (fix_num_canonical_cluster_pcs, rescale_gt_pcs, complete_pcs,
+                                               pred_occ_logits, gt_occ, zs, teacher_zs)
+
+        loss, loss_out, infos = loss_fn(loss_inp, epoch)
+
+        ##### accuracy / visual_dict / meter_dict
+        with torch.no_grad():
+            preds = {}
+            if not cfg.use_gt_seg_and_bbox:
+                preds['semantic'] = semantic_scores
+                preds['pt_offsets'] = pt_offsets
+                if epoch > cfg.prepare_epochs:
+                    # preds['score'] = scores
+                    preds['proposals'] = (proposals_idx, proposals_offset)
+
+            visual_dict = {}
+            visual_dict['loss'] = loss
+            for k, v in loss_out.items():
+                visual_dict[k] = v[0]
+
+            meter_dict = {}
+            meter_dict['loss'] = (loss.item(), coords.shape[0])
+            for k, v in loss_out.items():
+                meter_dict[k] = (float(v[0]), v[1])
+
+      
+        return loss, preds, visual_dict, meter_dict
+
+
+    def loss_fn(loss_inp, epoch):
+
+        loss_out = {}
+        infos = {}
+        '''get all losses'''
+        # ----------------Phase 1: point-wise loss: semantic, offset, bbox, angle_flip, bbox_score-------------------
+        if not cfg.use_gt_seg_and_bbox:
+            '''semantic loss'''
+            semantic_scores, semantic_labels, instance_semantic_CAD,instance_shapenet_catids = loss_inp['semantic_scores']
+            # semantic_scores: (N, nClass), float32, cuda
+            # semantic_labels: (N), long, cuda
+            semantic_loss = pt_semantic_loss(semantic_scores, semantic_labels, loss_out)
+
+            '''offset loss'''
+            pt_offsets,  coords_float, instance_info, instance_labels = loss_inp['pt_offsets']
+            offset_norm_loss, offset_dir_loss = pt_offset_loss(pt_offsets,  coords_float, instance_info,loss_out)
+
+            ''' bbox iou loss '''
+            pt_bboxes,pred_angle_param, instance_bboxes, instance_bbox_size, instance_zs_valid = loss_inp['pt_bboxes']
+            bbox_loss ,iou = pt_bbox_iou_loss(pt_bboxes, instance_bboxes, instance_info,instance_labels,loss_out)
+            # print('iou',iou.mean())
+
+            ''' bbox angle flip loss'''
+            angle_parameter = cfg.angle_parameter
+            angle_strict = cfg.angle_strict
+            if angle_parameter!= 'bin':
+                angle_flip_loss,angle_flip_accuracy = pt_angle_flip_loss(angle_parameter, angle_strict,instance_info,instance_semantic_CAD, instance_labels, instance_bboxes,pred_angle_param, loss_out)
+            else:
+                angle_label_loss, angle_residual_loss = pt_angle_flip_loss(angle_parameter, angle_strict,instance_info,instance_semantic_CAD, instance_labels, instance_bboxes,pred_angle_param, loss_out)
+
+            '''bbox reg loss'''
+
+            bbox_reg_loss = pt_bbox_reg_loss(cfg.use_bbox_reg_loss,
+                                                 pt_bboxes, instance_bboxes, instance_info, instance_labels, loss_out)
+
+
+
+
+        # ----------Phase 1.5: proposal wise loss:  merged bbox iou, merged bbox point distance ----------
+        if epoch > cfg.prepare_epochs and (not cfg.use_gt_seg_and_bbox): # stage 2, proposal-wize
+            proposals_idx, proposals_offset = loss_inp['proposal_info']  # ret['proposal_info']
+            gt_ious, gt_instance_idxs = loss_inp['gt_info']
+            # loss_inp['proposal_scores'] = (scores, proposals_idx, proposals_offset, instance_pointnum)
+            pred_cluster_bboxes, pred_cluster_bboxes = loss_inp['proposal_bbox']
+
+
+
+            '''merged bbox iou loss'''
+            pred_cluster_bboxes_valid_mask = instance_zs_valid[gt_instance_idxs].bool()
+            valid_pred_cluster_bboxes = pred_cluster_bboxes
+            valid_gt_clsuter_bboxes = instance_bboxes[gt_instance_idxs]
+            # valid_gt_scores = gt_scores
+
+            cluster_bbox_loss, cluster_bbox_iou = giou_3d_loss(valid_pred_cluster_bboxes, valid_gt_clsuter_bboxes)
+
+        # ----------------Phase 3: instance-wise loss: mesh, semantic, segmentation score, bbox score, mesh score-------------------
+        if epoch > cfg.prepare_epochs_2: #
+            if cfg.use_gt_seg_and_bbox:
+                fix_num_canonical_cluster_pcs, rescale_gt_pcs, complete_pcs, \
+                pred_occ_logits, gt_occ, pred_zs, teacher_zs = loss_inp['completion_data']
+                '''completion CD loss: PCN produces complete point clouds from partial ones'''
+                completion_loss = instance_completion_CD_loss(cfg.use_completion_CD_loss, complete_pcs, rescale_gt_pcs,
+                                                              loss_out)
+                '''binary cross entropy loss of occupancy values indicating whether a point is inside or outside a surface'''
+                mesh_loss, mesh_accuracy = instance_mesh_reconstruction_loss(cfg.use_mesh_reconstruction_loss,
+                                                                             pred_occ_logits, gt_occ, loss_out)
+                '''z loss (mesh embedding compared with the teacher)'''
+                z_loss = instance_z_loss(cfg.use_z_loss, pred_zs, teacher_zs, loss_out)
+
+
+            else:
+                CAD_instance_num = loss_inp['CAD_instance_num']
+                if CAD_instance_num > 0:
+                    selected_cluster_ids = loss_inp['selected_cluster_ids']
+                    pred_cls_score, pred_seg_score, pred_bbox_score, pred_mesh_score = loss_inp['scores']
+                    fix_num_canonical_cluster_pcs, rescale_gt_pcs, complete_pcs, \
+                    pred_occ_logits, gt_occ, pred_zs, teacher_zs = loss_inp['completion_data']
+                    gt_seg_score = get_segmented_scores(gt_ious)
+
+                    '''seg score loss'''
+                    instance_seg_score_loss = score_criterion(torch.sigmoid(pred_seg_score.view(-1)), gt_seg_score).mean()
+                    loss_out['instance_score_loss'] = (instance_seg_score_loss, gt_ious.shape[0])
+
+
+                    ''' cls score loss '''
+                    gt_cls_label = instance_semantic_CAD[gt_instance_idxs][selected_cluster_ids]  # (N), long, cuda  # -100,0,1,2,3,4,5,6,7
+                    instance_semantic_loss = semantic_criterion(pred_cls_score, gt_cls_label).mean()
+
+                    loss_out['instance_semantic_loss'] = (instance_semantic_loss, gt_cls_label.shape[0])
+
+
+                    '''bbox score loss'''
+                    gt_bbox_score = cluster_bbox_iou[selected_cluster_ids]
+                    instance_bbox_score_loss = score_criterion(torch.sigmoid(pred_bbox_score.view(-1)), gt_bbox_score.detach()).mean()
+                    loss_out['instance_bbox_score_loss'] = (instance_bbox_score_loss, gt_bbox_score.shape[0])
+
+
+                    '''completion CD loss: PCN produces complete point clouds from partial ones'''
+                    completion_loss = instance_completion_CD_loss(cfg.use_completion_CD_loss, complete_pcs, rescale_gt_pcs, loss_out)
+                    '''binary cross entropy loss of occupancy values indicating whether a point is inside or outside a surface'''
+                    mesh_loss,mesh_accuracy = instance_mesh_reconstruction_loss(cfg.use_mesh_reconstruction_loss, pred_occ_logits, gt_occ, loss_out)
+                    '''z loss (mesh embedding compared with the teacher)'''
+                    z_loss = instance_z_loss(cfg.use_z_loss, pred_zs, teacher_zs, loss_out)
+
+
+                    '''mesh score loss'''
+
+                    instance_mesh_score_loss = score_criterion(torch.sigmoid(pred_mesh_score.view(-1)), mesh_accuracy.detach()).mean()
+
+                    loss_out['instance_mesh_score_loss'] = (instance_mesh_score_loss, gt_cls_label.shape[0])
+                else:
+                    completion_loss = torch.tensor(0).cuda()
+                    mesh_loss = torch.tensor(0).cuda()
+                    z_loss = torch.tensor(0).cuda()
+                    instance_seg_score_loss = torch.tensor(0).cuda()
+                    instance_bbox_score_loss = torch.tensor(0).cuda()
+                    instance_mesh_score_loss = torch.tensor(0).cuda()
+                    instance_semantic_loss = torch.tensor(0).cuda()
+                    loss_out['completion_loss'] = (completion_loss, 1)
+                    loss_out['mesh_loss'] = (mesh_loss, 1)
+                    loss_out['z_loss'] = (z_loss, 1)
+                    loss_out['instance_score_loss'] = (z_loss, 1)
+                    loss_out['instance_bbox_score_loss'] = (z_loss, 1)
+                    loss_out['instance_mesh_score_loss'] = (z_loss, 1)
+                    loss_out['instance_semantic_loss'] = (z_loss, 1)
+                    loss_out['mesh_accuracy'] = (z_loss, 1)
+
+
+
+        '''add all losses to the total loss'''
+        # Phase 1
+        if not cfg.use_gt_seg_and_bbox:
+            # print('bbox_score_loss',bbox_score_loss)
+            loss = semantic_loss + offset_norm_loss + offset_dir_loss + \
+                   bbox_loss
+            if angle_parameter != 'bin':
+                loss += angle_flip_loss
+            else:
+                loss += angle_label_loss + angle_residual_loss
+            if cfg.use_bbox_reg_loss:
+                loss += bbox_reg_loss * cfg.bbox_reg_loss_weight
+        else:
+            loss = 0
+
+        # Phase 2
+        if epoch > cfg.prepare_epochs_2:
+            if not cfg.use_gt_seg_and_bbox:
+                loss += instance_seg_score_loss + instance_semantic_loss + instance_bbox_score_loss + instance_mesh_score_loss
+            if cfg.use_completion_CD_loss:
+                loss += completion_loss * cfg.CD_loss_weight
+            if cfg.use_mesh_reconstruction_loss:
+                # mesh_loss_weight = 1 # 0.0000001 # 0.0000001
+                loss += mesh_loss * cfg.mesh_loss_weight
+            # print('mesh_loss *mesh_loss_weight', mesh_loss * mesh_loss_weight)  # 500-600p
+            if cfg.use_z_loss:
+                # z_loss_weight = 0.0001 # proper for z loss
+                # print('z_loss *z_loss_weight', z_loss*z_loss_weight)  # 500-600p
+                loss += z_loss * cfg.z_loss_weight
+            # # print(loss.item(), completion_loss.item(),mesh_loss.item())
+
+        return loss, loss_out, infos
+
+
     ### gt_scores,
     def get_segmented_scores(scores, fg_thresh=0.75, bg_thresh=0.25):
         '''
