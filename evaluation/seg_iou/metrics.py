@@ -253,20 +253,6 @@ def eval_det_multiprocessing_w_mesh(pred_all, gt_all, thresh=0.25, use_07_metric
             pred[label][scan_id].append((mesh, score))
 
 
-        # labels, bboxes, scores = pred_all[scan_id][0] #pred_all[scan_id][i] is a tuple where i == 0
-        # object_num = bboxes.shape[0]
-        # for i in range(object_num):
-        #     label = labels[i]
-        #     bbox = bboxes[i]
-        #     score = scores[i]
-        #     # default dict behaviour
-        #     if label not in pred: pred[label] = {}
-        #     if scan_id not in pred[label]: pred[label][scan_id] = []
-        #     if label not in gt: gt[label] = {}
-        #     if scan_id not in gt[label]: gt[label][scan_id] = []
-        #     # record
-        #     pred[label][scan_id].append((bbox, score))
-
 
     for scan_id in gt_all.keys():
 

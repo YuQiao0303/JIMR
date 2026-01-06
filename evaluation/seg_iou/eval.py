@@ -1,14 +1,5 @@
 # offline mesh IoU eval
-# 2 modifications by Qiao
-# extract_label, 3 or 5
-# pred_files, replace
-# use like:
 
-# python evaluation/seg_iou/eval.py ./datasets/gt_seg ../dimr/exp/scannetv2/rfs/my_pretrained_scannet/result/epoch256_nmst0.3_scoret0.05_npointt100/val/instance_seg/
-# python evaluation/seg_iou/eval.py ./datasets/gt_seg ../dimr/exp/scannetv2/rfs/2022.10.18.14.58_test_40_dimrgroup_mean_testset_/result/epoch256_nmst0.3_scoret0.05_npointt100/val/instance_seg/
-# python evaluation/seg_iou/eval.py ./datasets/gt_seg ../dimr/exp/scannetv2/rfs/2022.10.18.15.03_test_40_softgroup_mean_testset/result/epoch256_nmst0.3_scoret0.05_npointt100/val/instance_seg/
-# python evaluation/seg_iou/eval.py ./datasets/gt_seg ../dimr/exp/scannetv2/rfs/2022.10.18.15.09_test_40_softgroup_mean_trainset/result/epoch256_nmst0.3_scoret0.05_npointt100/val/instance_seg/
-# python evaluation/seg_iou/eval.py ./datasets/gt_seg ../dimr/exp/scannetv2/rfs/2022.10.18.15.11_test_40_dimrgroup_mean_trainset/result/epoch256_nmst0.3_scoret0.05_npointt100/val/instance_seg/
 
 import open3d as o3d
 import numpy as np

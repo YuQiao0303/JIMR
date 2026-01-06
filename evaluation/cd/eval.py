@@ -1,7 +1,7 @@
-# offline mesh IoU eval
-# 2 modifications by Qiao
-# extract_label, 3 or 5
-# pred_files, replace
+# offline mesh CD eval
+# 2 modifications by Qiao:
+#   modification by Qiao #1: extract_label, 3 or 5
+#   modification by Qiao #2: pred_files add replace
 import open3d as o3d
 import numpy as np
 import os
@@ -13,7 +13,7 @@ from metrics import *
 
 def extract_label(f):
     if 'gt' in f:
-        clsname = f[:-4].split('_')[5]  # modified by Qiao
+        clsname = f[:-4].split('_')[5]  # modification by Qiao #1
     else:
         clsname = f[:-4].split('_')[3]  # default
     if clsname == 'trash': clsname = 'trash_bin'
@@ -45,7 +45,7 @@ def eval(gt_dir, pred_dir, threshs):
     # collect meshes (ply)
     gt_files = sorted(glob.glob(os.path.join(gt_dir, '*.ply')))
     # pred_files = sorted(glob.glob(os.path.join(pred_dir, '*.ply')))
-    pred_files = sorted(glob.glob(os.path.join(pred_dir.replace('[', '?').replace(']', '?'), '*.ply')))
+    pred_files = sorted(glob.glob(os.path.join(pred_dir.replace('[', '?').replace(']', '?'), '*.ply'))) # modification by Qiao #2
 
     data = {}
 

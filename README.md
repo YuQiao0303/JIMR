@@ -15,8 +15,8 @@ To do so, a network with two cascaded stages is designed:
 - [x] Release code for inference. 2024.05.22
 - [ ] clean and reorganize the code
 - [ ] Release code for demo (quick inference without GT)
-- [x] Release code for training
-- [ ] Release code for evaluation
+- [x] Release code for training 2025.12.09
+- [x] Release code for evaluation 2026.01.06
 - [ ] Release code for visualization
 
 ## 🛠️ Setup
@@ -85,6 +85,12 @@ cd lib/chamfer_distance
 python setup.py develop
 ```
 
+- light-field-distance (only if you need LFD evaluation)
+```bash
+cd lib
+git clone https://github.com/ashawkey/light-field-distance/tree/88031b227e0c5c91959b274a67161875637c0ef9
+python setup.py install
+```
 ## 💾Prepare the data
 
 We aim to organize our dataset folder as following:
@@ -162,10 +168,49 @@ The results will be saved in ```exp/scannetv2/rfs/train_phase2_scannet```.
 To use your own trained phase1's weights, modify 'pretrain_path' in train_phase2_scannet.yaml
 
 ### Run inference:
+> Note: If you need to also evaluate segmentaiton IoU and bbox IoU, you need to do the following things BEFORE inference:
+> 1. generate GT : set 'save_cad_instance_seg' and 'save_bbox' in data/scannetv2_inst.py to 'True' before inference. 
+> 2. set 'save_bbox' and 'save_instance_for_seg_eval' to 'True' in config/test_phase2_scannet.yaml.
+
 ```bash
 CUDA_VISIBLE_DEVICES=0 python test.py --config config/test_phase2_scannet.yaml
 ```
 The results will be saved in ```exp/scannetv2/rfs/test_phase2_scannet```. You can drag the files into Meshlab to visualize them.
+
+
+
+### Evaluation:
+We use DIMR's evaluation code with tiny modifications. To run evaluation, 
+
+1. Download [GT meshes prepared by DIMR](https://drive.google.com/file/d/1ArUgyoSfXuSP34Asf0HrZYbd28yPm0vQ/view?usp=sharing). 
+
+2. Prepare 
+- (for IoU evaluation) [binvox](https://www.patrickmin.com/binvox/) to voxelize meshes (via trimesh's API), so make sure it can be found in the system path. See more details in RfDNet or DIMR.
+- (for LFD evaluation) make sure that light-field-distance has been installed in previous steps.
+
+Then, run:
+```bash
+# for mesh IoU evaluation:
+python evaluation/iou/eval.py datasets/gt_meshes exp/scannetv2/rfs/test_phase2_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100/val/meshes
+
+# for mesh CD evaluation:
+python evaluation/cd/eval.py datasets/gt_meshes exp/scannetv2/rfs/test_phase2_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100/val/meshes
+
+# for mesh LFD evaluation:
+python evaluation/lfd/eval.py datasets/gt_meshes exp/scannetv2/rfs/test_phase2_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100/val/meshes
+```
+
+> Note: If you need to also evaluate segmentaiton IoU and bbox IoU, you need to do the following things BEFORE inference:
+> 1. generate GT : set 'save_cad_instance_seg' and 'save_bbox' in data/scannetv2_inst.py to 'True' before inference. 
+> 2. set 'save_bbox' and 'save_instance_for_seg_eval' to 'True' in config/test_phase2_scannet.yaml.
+
+```
+python evaluation/seg_iou/eval.py ./datasets/gt_seg test_phase2_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100/val/instance_seg/
+
+
+python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes test_phase2_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100/val/bbox/
+```
+
 
 ## 🎉Acknowledgement
 This work is built on many amazing research works and open-source projects, thanks a lot to all the authors for sharing!

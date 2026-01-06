@@ -1,15 +1,4 @@
-# offline mesh IoU eval
-# 2 modifications by Qiao
-# extract_label, 3 or 5
-# pred_files, replace
-# use like:
-# python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes ../dimr/exp/scannetv2/rfs/2022.10.17.10.22_test_train_all_104_mean/result/epoch256_nmst0.3_scoret0.05_npointt100/val/bbox/
-# python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes ../dimr/exp/scannetv2/rfs/2022.10.17.09.59_test_train_all_40_testset14_weighted_centerness/result/epoch256_nmst0.3_scoret0.05_npointt100/val/bbox/
-# python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes ../dimr/exp/scannetv2/rfs/2022.10.17.09.57_test_train_all_40_testset14_weighted_cls/result/epoch256_nmst0.3_scoret0.05_npointt100/val/bbox/
-# python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes ../dimr/exp/scannetv2/rfs/2022.10.17.09.31_test_train_all_40_testset14_mean/result/epoch256_nmst0.3_scoret0.05_npointt100/val/bbox/
-# python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes ../dimr/exp/scannetv2/rfs/my_pretrained_scannet/result/epoch256_nmst0.3_scoret0.05_npointt100/val/bbox/
-# python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes ../original_dimr/exp/scannetv2/rfs/training_set_scannet/result/epoch256_nmst0.3_scoret0.05_npointt100/val/bbox/
-# python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes ../original_dimr/exp/scannetv2/rfs/test_set_scannet/result/epoch256_nmst0.3_scoret0.05_npointt100/val/bbox/
+# offline bbox IoU eval
 
 import open3d as o3d
 import numpy as np
