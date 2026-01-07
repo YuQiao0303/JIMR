@@ -10,7 +10,7 @@ import random
 import os
 
 from util.config import cfg
-cfg.task = 'test'
+# cfg.task = 'test'
 
 from util.log import logger
 import util.utils as utils
@@ -102,7 +102,7 @@ def test(model, model_fn, data_name, epoch):
 
             if epoch > cfg.prepare_epochs:
                 if not cfg.use_gt_seg_and_bbox:
-                    gt_seg_ious = preds['gt_seg_ious']
+                    # gt_seg_ious = preds['gt_seg_ious']
                     clusters = preds['clusters']
                     cluster_seg_scores,cluster_bbox_scores,cluster_sem_scores,cluster_mesh_scores = preds['cluster_scores'] # preds['cluster_scores'] =
                     cluster_semantic_score = cluster_sem_scores
@@ -127,9 +127,7 @@ def test(model, model_fn, data_name, epoch):
 
                 cluster_semantic_id = preds['cluster_semantic_id']
                 pred_corresponding_gt_mesh_id =preds['pred_corresponding_gt_mesh_id']
-                if cfg.retrieval:
-                    cluster_alignment = preds['cluster_alignment'] # dataframe
-
+              
                 # nclusters = len(cluster_meshes)
 
                 nclusters = len(cluster_semantic_id)
@@ -219,10 +217,7 @@ def test(model, model_fn, data_name, epoch):
                         score = 1
 
                     mesh.export(os.path.join(result_dir, "meshes", f"{test_scene_name}_{proposal_id}_gt_{pred_corresponding_gt_mesh_id[proposal_id]}_{CAD_labels[semantic_label]}_{score:.4f}.ply"))
-                    # if isinstance(mesh, PolyMesh):
-                    #     tmesh = mesh.to_trimesh()
-                    #     tmesh.export(os.path.join(result_dir, "trimeshes", f"{test_scene_name}_{proposal_id}_gt_{pred_corresponding_gt_mesh_id[proposal_id]}_{CAD_labels[semantic_label]}_{score:.4f}.ply"))
-
+                   
             if epoch > cfg.prepare_epochs_3 and cfg.save_cano_mesh:
                 # save meshes.
                 os.makedirs(os.path.join(result_dir, 'cano_meshes'), exist_ok=True)
@@ -369,7 +364,11 @@ if __name__ == '__main__':
     logger.info('#classifier parameters (model): {}'.format(sum([x.nelement() for x in model.parameters()])))
 
     ##### model_fn (criterion)
-    model_fn = model_fn_decorator(test=True)
+    if cfg.task == 'demo':
+        demo = True
+    else:
+        demo = False
+    model_fn = model_fn_decorator(test=True,demo=demo)
 
     ##### load model
     # utils.checkpoint_restore(model, cfg.exp_path, cfg.config.split('/')[-1][:-5], use_cuda, cfg.test_epoch, dist=False, f=cfg.pretrain)      # resume from the latest epoch, or specify the epoch to restore

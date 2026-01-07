@@ -34,7 +34,7 @@ if cfg.task == 'train':
         cfg.exp_path,
         'train-{}.log'.format(time.strftime("%Y%m%d_%H%M%S", time.localtime()))
     )
-elif cfg.task == 'test':
+elif cfg.task == 'test' or cfg.task == 'demo':
     log_file = os.path.join(
         cfg.exp_path, cfg.result_path, 'epoch{}_nmst{}_scoret{}_npointt{}'.format(cfg.test_epoch, cfg.TEST_NMS_THRESH, cfg.TEST_SCORE_THRESH, cfg.TEST_NPOINT_THRESH),
         cfg.split, 'test-{}.log'.format(time.strftime("%Y%m%d_%H%M%S", time.localtime()))

@@ -4,7 +4,6 @@ Written by Li Jiang
 '''
 
 import os, sys, glob, math, numpy as np
-os.environ["CUDA_VISIBLE_DEVICES"] = '2'
 import scipy.ndimage
 import scipy.interpolate
 import torch
@@ -48,6 +47,8 @@ class Dataset:
         self.scale = cfg.scale # 50
         self.max_npoint = cfg.max_npoint
         self.mode = cfg.mode
+        
+        self.task = cfg.task
 
         if test:
             self.batch_size = 1 # must be 1 !
@@ -275,8 +276,10 @@ class Dataset:
                 scan_name = self.val_files[idx]
             elif split == 'test':
                 scan_name = self.test_files[idx] # in fact, this is the same as val_files
-
-            scan_data = np.load(f'datasets/scannet/processed_data/{scan_name}/data.npz')
+            if self.task == 'demo':
+                scan_data = np.load(f'datasets/scannet/demo_data/{scan_name}/data.npz')
+            else:
+                scan_data = np.load(f'datasets/scannet/processed_data/{scan_name}/data.npz')
 
             point_cloud = scan_data['mesh_vertices'].astype(np.float32)
             xyz_origin = point_cloud[:, 0:3]
@@ -710,7 +713,12 @@ class Dataset:
 
     # If there are GTs, use this. Support online eval.
     def testMerge(self, id):
-        return self.Merge(id, 'test', False)
+        if self.task == 'test':
+            print('its not demo!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            return self.Merge(id, 'test', False)
+        elif self.task == 'demo':
+            print('its demo!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            return self.testMerge_(id)
 
     # If there is no GT, use this.
     def testMerge_(self, id):
@@ -723,7 +731,7 @@ class Dataset:
         for i, idx in enumerate(id):
 
             scan_name = self.test_files[idx]
-            scan_data = np.load(f'datasets/scannet/processed_data/{scan_name}/data.npz')
+            scan_data = np.load(f'datasets/scannet/demo_data/{scan_name}/data.npz')
 
             point_cloud = scan_data['mesh_vertices'].astype(np.float32)
             xyz_origin = point_cloud[:, 0:3]

@@ -9,12 +9,13 @@ To do so, a network with two cascaded stages is designed:
 ![teaser](./assets/network.PNG)
 
 ## News
+- 2026.01.07 Evaluation, visualization and demo code released! Enjoy
 - 2025.12.09 Training code released!
 - 2025.02.16 update google drive link
 ## 📝Todo
 - [x] Release code for inference. 2024.05.22
 - [x] clean and reorganize the code
-- [ ] Release code for demo (quick inference without GT)
+- [x] Release code for demo (quick inference without GT)
 - [x] Release code for training 2025.12.09
 - [x] Release code for evaluation 2026.01.06
 - [x] Release code for visualization 2026.01.07
@@ -152,6 +153,25 @@ After downloading. Unzip this file, and organize the files as:
 ```
 
 ## 💻Usage
+### Quick Demo
+We upload a demo scene (`datasets/scannet/demo_data/scene0406_00/data.npz`) from the processed data by DIMR authors. To run a quick demo, simply run:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python test.py --config config/demo_scannet.yaml
+```
+The results will be saved in `exp/scannetv2/rfs/demo_scannet`:
+```bash
+.
+├──exp/scannetv2/rfs/demo_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100
+│   ├── backup_files
+│   ├── cano_meshes: instance meshes in their local canonical coordinate systems
+│   ├── meshes: instance meshes in global world coordinate systems
+│   ├── completed_pc: instance point clouds completed by our JIMR's completion module (PCN here)
+│   ├── partial_pc: partial instance point clouds segmented by our JIMR
+│
+```
+You can drag the meshes into Meshlab for visualization, or see `Visualization` part below.
+
 ### Training
 Train phase1:
 ```bash
