@@ -13,11 +13,11 @@ To do so, a network with two cascaded stages is designed:
 - 2025.02.16 update google drive link
 ## 📝Todo
 - [x] Release code for inference. 2024.05.22
-- [ ] clean and reorganize the code
+- [x] clean and reorganize the code
 - [ ] Release code for demo (quick inference without GT)
 - [x] Release code for training 2025.12.09
 - [x] Release code for evaluation 2026.01.06
-- [ ] Release code for visualization
+- [x] Release code for visualization 2026.01.07
 
 ## 🛠️ Setup
 - Different from the paper: We used torch 1.7.0 and spconv1.0 in the experiments of the paper. Here we update to torch 1.7.1 and spconv2.0. Spconv2.0 is much more easier to install than spconv1.0.
@@ -182,11 +182,11 @@ The results will be saved in ```exp/scannetv2/rfs/test_phase2_scannet```. You ca
 ### Evaluation:
 We use DIMR's evaluation code with tiny modifications. To run evaluation, 
 
-1. Download [GT meshes prepared by DIMR](https://drive.google.com/file/d/1ArUgyoSfXuSP34Asf0HrZYbd28yPm0vQ/view?usp=sharing). 
+1. Download [GT meshes prepared by DIMR](https://drive.google.com/file/d/1ArUgyoSfXuSP34Asf0HrZYbd28yPm0vQ/view?usp=sharing). Unzip and organize it as ./datasets/gt_meshes.
 
 2. Prepare 
 - (for IoU evaluation) [binvox](https://www.patrickmin.com/binvox/) to voxelize meshes (via trimesh's API), so make sure it can be found in the system path. See more details in RfDNet or DIMR.
-- (for LFD evaluation) make sure that light-field-distance has been installed in previous steps.
+- (for LFD evaluation) make sure that light-field-distance has been installed in previous steps. See 'Setup'.
 
 Then, run:
 ```bash
@@ -210,7 +210,24 @@ python evaluation/seg_iou/eval.py ./datasets/gt_seg test_phase2_scannet/result/e
 
 python evaluation/bbox_iou/eval.py ./datasets/gt_bboxes test_phase2_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100/val/bbox/
 ```
+### Visualization
+You can directly drag meshes in `exp/scannetv2/rfs/test_phase2_scannet/result/epoch256_nmst0.3_scoret0.01_npointt100/val/meshes` into Meshlab for visualization.
 
+Or, we provide code using `vtk` for visualization by slightly modifying RfDNet's original code. To run this, first install:
+
+```bash
+pip install seaborn
+pip install vtk==9.0.1 # 9.3.0?
+```
+
+Then, modify `instance_mesh_root_paths` in `vis_utils/vis_scene_share_camera.py` as you need. For example, if you want to also visualize results of RfDNet and DIMR, you can download the meshes prepared by DIMR authors [here](https://drive.google.com/file/d/1_z0nHZQ86-WApr3J0Lw1OV3fL4rrh_V4/view?usp=sharing) and also GT [here](https://drive.google.com/file/d/1ArUgyoSfXuSP34Asf0HrZYbd28yPm0vQ/view?usp=sharing).
+
+After that, you can run:
+```bash
+python vis_utils/vis_scene_share_camera.py
+```
+Results will be saved in `vis_results`. It would be something like:
+![scene0406_00](assets/scene0406_00.png)
 
 ## 🎉Acknowledgement
 This work is built on many amazing research works and open-source projects, thanks a lot to all the authors for sharing!
